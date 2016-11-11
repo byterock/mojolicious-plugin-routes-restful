@@ -2,7 +2,7 @@ package RouteRestful::Controller::Api::Users;
 
 use strict;
 use warnings;
-use v5.10;
+
 use Data::Dumper;
 use base 'Mojolicious::Controller';
 my $project = {

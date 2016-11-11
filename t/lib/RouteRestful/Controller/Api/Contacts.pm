@@ -2,7 +2,7 @@ package RouteRestful::Controller::Api::Contacts;
 
 use strict;
 use warnings;
-use v5.10;
+
 
 use base 'Mojolicious::Controller';
 my $project = {

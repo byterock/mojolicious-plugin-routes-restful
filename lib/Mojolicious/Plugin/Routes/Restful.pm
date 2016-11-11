@@ -1,26 +1,26 @@
 package Mojolicious::Plugin::Routes::Restful;
 use Lingua::EN::Inflect 'PL';
 
-#Oh dear, she's stuck in an infinite loop and he's an idiot! Oh well, that's love 
+#Oh dear, she's stuck in an infinite loop and he's an idiot! Oh well, that's love
 
 BEGIN {
     $Mojolicious::Plugin::Routes::Restful::VERSION = '0.01';
 }
 use Mojo::Base 'Mojolicious::Plugin';
 
-
 sub reserved_words {
-  my $self = shift;
-  return {No_Root=>1,
-          DEBUG=>1,
-          API_Only=>1};
+    my $self = shift;
+    return {
+        No_Root  => 1,
+        DEBUG    => 1,
+        API_Only => 1
+    };
 }
 
 sub _is_reserved_words {
-  my $self = shift;
-  my ($word) = @_;
-  
-  
+    my $self = shift;
+    my ($word) = @_;
+
 }
 
 sub register {
@@ -42,10 +42,7 @@ sub register {
     my $routes = $args->{Routes};
 
     $rapp->namespaces( $config->{'Namespaces'} );
-    $rapp->namespaces( $config->{'Namespaces'} );
 
-   
-    #  Namespace
     foreach my $key ( keys( %{$routes} ) ) {
         my $route       = $routes->{$key};
         my $route_stash = $route->{stash} || {};
@@ -77,8 +74,9 @@ sub register {
           if ( keys( %{ $route->{api} } ) );
 
         foreach my $inline_key ( keys( %{ $route->{inline_routes} } ) ) {
-          # use Data::Dumper;
-          # warn("JPS $inline_key here ".Dumper($route->{inline_routes}));
+
+            # use Data::Dumper;
+            # warn("JPS $inline_key here ".Dumper($route->{inline_routes}));
             my $inline_route = $route->{inline_routes}->{$inline_key};
             my $inline_stash = $inline_route->{stash} || $route_stash;
             my $action       = "show" || $inline_route->{action};
@@ -144,6 +142,7 @@ sub register {
             }
         }
     }
+    return $rapp;
 
 }
 
@@ -275,11 +274,13 @@ sub _inline_api_routes {
     $stash->{parent} = $resource;
     $stash->{child}  = $child_resource;
     warn(
-"_inline_api_routes resource=$resource, child_resource=$child_resource, api=$api")
-          # . Dumper($api) )
+"_inline_api_routes resource=$resource, child_resource=$child_resource, api=$api"
+      )
+
+      # . Dumper($api) )
       if ( $api->{DEBUG} );
 
-# $rapi->route("/".$resource."/:id/".$child_resource) 			->via('GET')	->to("api-$resource#$child_resource",$stash)
+# $rapi->route("/".$resource."/:id/".$child_resource)             ->via('GET')    ->to("api-$resource#$child_resource",$stash)
 # if($verbs->{RETREIVE});
 
     warn(
@@ -304,7 +305,7 @@ sub _inline_api_routes {
       ->to( "api-$resource#$child_resource", $stash )
       if ( $verbs->{UPDATE} );
 
-# $rapi->route("/".$resource."/:id/".$child_resource)			->via('DELETE')->to("api-$child_resource#delete",$stash)
+# $rapi->route("/".$resource."/:id/".$child_resource)            ->via('DELETE')->to("api-$child_resource#delete",$stash)
 # if($verbs->{DELETE});
 
 }
@@ -359,3 +360,160 @@ sub _sub_routes {
 }
 
 return 1;
+__END__
+
+=pod
+
+=head1 NAME
+
+Mojolicious::Plugin::Routes::Restful- A plugin to generate Routes and RESTful api routes.
+
+=head1 VERSION
+
+version 1.04
+
+=head1 SYNOPSIS
+In you Mojo App:
+
+  package RouteRestful;
+  use Mojo::Base 'Mojolicious';
+
+  sub startup {
+    my $self = shift;
+    my $r = $self->plugin( "Routes::Restful", => {
+                   Config => { Namespaces => ['Controller'] },
+                   Routes => {
+                     project => {
+                       api   => {
+                         verbs => {
+                           CREATE   => 1,
+                           UPDATE   => 1,
+                           RETREIVE => 1,
+                           DELETE   => 1
+                         },
+                       },
+                       inline_routes => {
+                         detail => {
+                           api => { 
+                           verbs => { UPDATE => 1 } }
+                         },
+                       },
+                       sub_routes => {
+                         user => {
+                           api => {
+                             verbs => {
+                               CREATE   => 1,
+                               RETREIVE => 1,
+                               UPDATE   => 1,
+                               DELETE   => 1
+                             }
+                           }
+                         }
+                       }
+                     }
+                   } 
+                 );
+          
+    }
+    1;
+    
+And presto the following non restful routes
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project                    | GET | project#show      |
+  | Key    | /project/:id                | GET | project#show      |
+  | Inline | /project/:id/detail         | GET | project#detail    |
+  | Sub    | /project/:id/user           | GET | project#user      |
+  | Sub    | /project/:id/user/:child_id | GET | project#user      |
+  +--------+-----------------------------+-----+-------------------+
+
+and the following restful API routes
+
+  +--------+-------------------------------+--------+----------------------------------+
+  |  Type  |       Route                   | Via    | Controller#Action                |
+  +--------+-------------------------------+--------+----------------------------------+
+  | Key    | /projects                     | GET    | api-projects#get                 |
+  | Key    | /projects/:id                 | GET    | api-projects#get                 |
+  | Key    | /projects                     | POST   | api-projects#create              |
+  | Key    | /projects/:id                 | PUT    | api-projects#update              |
+  | Key    | /projects/:id                 | DELETE | api-projects#delete              |
+  | Inline | /projects/:id/details         | PUT    | api-projects#details             |
+  | Sub    | /projects/:id/users           | GET    | api-projects#users               |
+  | Sub    | /projects/:id/users/:child_id | GET    | api-users#get parent=projects    |
+  | Sub    | /projects/:id/users           | POST   | api-users#create parent=projects |
+  | Sub    | /projects/:id/users/:child_id | PUT    | api-users#update parent=projects |
+  | Sub    | /projects/:id/users/:child_id | DELETE | api-users#delete parent=projects |
+  +--------+-------------------------------+--------+----------------------------------+
+
+
+=head1 DESCRIPTION
+
+L<Mojolicious::Plugin::Routes::Restful> is a L<Mojolicious::Plugin> if a highly configurable route generator for your Mojo App.
+Simply drop the plugin at the top of your srart class add in config hash and you have your routes for you system.
+
+=head1 METHODS
+
+Well none! Like the L<|'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> it olny generates routes to put in you app.
+
+=head1 CONFIGURATION
+
+You define which routes and the behaviour of your routes with a congfig hash that contains settings for global attribues 
+and overriders specific defintions of your routes. 
+
+=head2 Config
+
+This contorls the glabal settings of the routes that are generated.
+
+=head3 Namepaces
+
+Use this to Change the default namespaces for all routes you generate. Does the same thing as
+
+    $r->namespaces(['MyApp::MyController']);
+    
+It must be an array ref.
+
+=head2 Routes
+
+This hash is used to define you routes and by default it normlly uses the 'key'
+=over 4
+
+
+
+=head1 AUTHOR
+
+John Scoles, C<< <byterock  at hotmail.com> >>
+
+=head1 BUGS / CONTRIBUTING
+
+Please report any bugs or feature requests through the web interface at L<https://github.com/byterock/>.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+    perldoc Mojolicious::Plugin::Authorization
+You can also look for information at:
+
+=over 4
+
+=item * AnnoCPAN: Annotated CPAN documentation L<http:/>
+
+=item * CPAN Ratings L<http://cpanratings.perl.org/d/>
+
+=item * Search CPAN L<http://search.cpan.org/dist//>
+
+=back
+
+=head1 ACKNOWLEDGEMENTS
+
+
+    
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2012 John Scoles.
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+See http://dev.perl.org/licenses/ for more information.
+
+=cut

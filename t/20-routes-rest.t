@@ -61,7 +61,7 @@ my $project_new = {
     owner => 'Bloggs 3',
 };
 
-#chet the gets
+#check the non API gets
 
 $t->get_ok("/project")->status_is(200)->content_is('show all');
 $t->get_ok("/project/1")->status_is(200)->content_is('show for 1');
@@ -81,8 +81,10 @@ $t->get_ok("/project/1/contact")->status_is(200)
   ->content_is('all contacts for project=1');#
 $t->get_ok("/project/1/contact/1")->status_is(200)
   ->content_is('contact=1, for project=1');#
-$t->get_ok("/project/1/contact/2")->status_is(200)
-  ->content_is('contact=2, for project=1');#
+$t->get_ok("/project/1/contact/2")->status_is(200)->content_is('contact=2, for project=1');#
+
+#and now the API routes
+
 $t->get_ok("/projects")->status_is(200)->json_is( '/1' => $project->{2} );
 $t->get_ok("/projects/1")->status_is(200)->json_is( $project->{1} );#
 $t->put_ok( "/projects/1" => form => $project->{update1} )->status_is(200);
@@ -147,7 +149,8 @@ $t->get_ok("/projects/2/contacts/5")->status_is(200)
 $t->delete_ok("/projects/2/contacts/3")->status_is(200);
 $t->get_ok("/projects/2/contacts/3")->status_is(404);
 
-#note here '/projects/1/users/' will fail as the data is not shared across APIs
-#it is only a test really
+#note here the changes done with '/projects/1/users/' PUT/POST  will 
+#not be visable if you get call /projects/1/users as the data is not shared across 
+#contolers! Its is only a test or the route not the controller
 
 done_testing;

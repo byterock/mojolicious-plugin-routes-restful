@@ -2,7 +2,7 @@ package RouteRestful::Controller::Project;
 
 use strict;
 use warnings;
-use v5.10;
+
 use Mojo::Base 'Mojolicious::Controller';
 
 

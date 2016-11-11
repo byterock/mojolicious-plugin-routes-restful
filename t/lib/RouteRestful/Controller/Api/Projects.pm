@@ -3,7 +3,7 @@ package RouteRestful::Controller::Api::Projects;
 use strict;
 use warnings;
 use Data::Dumper;
-use v5.10;
+use base 'Mojolicious::Controller';
 
 my $project = {
     1 => {
@@ -32,7 +32,7 @@ my $project = {
     }
 };
 
-use base 'Mojolicious::Controller';
+
 
 sub create {
     my $self = shift;
