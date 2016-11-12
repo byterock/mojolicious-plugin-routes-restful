@@ -56,13 +56,13 @@ sub register {
         # "key $key controller=" . $controller . " route=" . Dumper($route) )
         # if ( $route->{DEBUG} );
 
-        unless ( $route->{No_Root} ) {
+        unless ( $route->{No_Root} || $route->{API_Only} ) {
             $rapp->route("/$key")->via('GET')
               ->to( "$controller#$action", $route_stash );
             warn("Has route /$key via GET->$controller#$action")
               if ( $route->{DEBUG} );
         }
-        unless ( $route->{No_ID} ) {
+        unless ( $route->{No_ID} || $route->{API_Only} ) {
             $rapp->route("/$key/:id")->via('GET')
               ->to( "$controller#$action", $route_stash );
             warn("Has ID /$key/:id via GET->$controller#$action")
@@ -418,6 +418,7 @@ In you Mojo App:
     1;
     
 And presto the following non restful routes
+
   +--------+-----------------------------+-----+-------------------+
   |  Type  |    Route                    | Via | Controller#Action |
   +--------+-----------------------------+-----+-------------------+ 
@@ -463,7 +464,7 @@ and overriders specific defintions of your routes.
 
 =head2 Config
 
-This contorls the glabal settings of the routes that are generated.
+This contorls the global settings of the routes that are generated. 
 
 =head3 Namepaces
 
@@ -473,10 +474,137 @@ Use this to Change the default namespaces for all routes you generate. Does the 
     
 It must be an array ref.
 
+
+
 =head2 Routes
 
-This hash is used to define you routes and by default it normlly uses the 'key'
-=over 4
+This hash is used to define both you regular and restful routes. The design idea phliosphy being the assumption that if you have a 'route'
+to a content resource you may want a restful API resource to access the data for that content resource and you may want to limt what parts of the API you open up.  
+
+By default it uses the 'key' values of the hash as the controller name. So given this hash
+
+  Routes => {
+            project => {},
+            user    => {}
+          }
+
+only these routes will be created
+
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project                    | GET | project#show      |
+  | Key    | /project/:id                | GET | project#show      |
+  | Key    | /user                       | GET | user#show         |
+  | Key    | /user/:id                   | GET | user#show         |
+  +--------+-----------------------------+-----+-------------------+
+
+These are the 'Root' level routes and to save saying 'Root' and 'Route' in the same sentence over and over abain this doucmennt will call
+these 'Key' routes hearafter.
+
+=head3 'Routes' Modifiers
+
+The world is a compley place and there is never a simple solution that covers all the bases this plugin inclues a number of modifiers to customize
+your routes to suite your sites needs.
+
+=head4 action
+
+You can overide the default 'show' action by simply using this modifier so
+
+  Routes => {
+            project => {action=>'list'},
+          }
+
+would get you 
+
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project                    | GET | project#list      |
+  | Key    | /project/:id                | GET | project#list      |
+  +--------+-----------------------------+-----+-------------------+
+
+=head4 controller
+
+One can overide the use of 'key' as the controller name by using this modifier so
+
+  Routes => {
+            project => {action=>'list'
+                         controller=>'pm'},
+          }
+
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project                    | GET | pm#list      |
+  | Key    | /project/:id                | GET | pm#list      |
+  +--------+-----------------------------+-----+-------------------+
+
+=head4  No_Root
+
+Sometimes one might not want to open up a 'Root' resource so you can use this modifier to drop that route
+
+  Routes => {
+            project => {action=>'list'
+                         controller=>'pm'
+                         No_Root=>1 },
+          }
+
+would get you 
+
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project/:id                | GET | pm#list           |
+  +--------+-----------------------------+-----+-------------------+
+
+=head4  No_Id
+
+Likewise you may not wand to have an id on a 'Root' resource so you can use this modifier to drop that route
+
+  Routes => {
+            project => {action=>'all_projects'
+                         controller=>'pm'
+                         No_Id=>1 },
+          }
+
+would get you
+
+  +--------+-----------------------------+-----+-------------------+
+  |  Type  |    Route                    | Via | Controller#Action |
+  +--------+-----------------------------+-----+-------------------+ 
+  | Key    | /project                    | GET | pm#all_projects   |
+  +--------+-----------------------------+-----+-------------------+
+
+Just to warn you now that if you use 'No_Id' and 'No_Root' you would get no routes.
+
+=head4 API_Only
+
+Sometimes you want just the restful API so insted of using No_Id and 'No_Root' use the 'API_Only' and get
+no routes!
+
+=head4 stash
+
+Need some static data on all itmes along a route?  Well with this modifier you can.  So given this hash
+
+  Routes => {
+            project => {stash=>{selected_tab=>'project'}},
+            user    => {stash=>{selected_tab=>'user'}}
+          }
+          
+You would get the same routes as with the first example but the 'tab' variable will be available in the stash.  So
+you could use it on your controller to pass the current navigaiton state into the content pages say, as in in this
+case, to set up a  the 'Selected Tab' in a  view.
+
+=head4 inline_routes
+
+These are routes that go unter on the 'Key'
+   
+   api', version => 'v1'
+
+=over 4 inline_routes
+
+
 
 
 
