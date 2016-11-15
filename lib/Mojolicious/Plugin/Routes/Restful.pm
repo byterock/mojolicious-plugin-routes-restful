@@ -38,7 +38,7 @@ sub _get_methods {
 
 }
 
-sub _is_reserved_words {
+sub _is_reserved_word {
     my $self = shift;
     my ($word) = @_;
 
@@ -68,26 +68,34 @@ sub register {
 
         my $resource =
           $self->_make_routes( "ROOT", $rapp, $key, $routes->{$key}, $config,
-            "" );
+            $key, $key );
 
         my $route = $routes->{$key};
 
         foreach my $inline_key ( keys( %{ $route->{inline_routes} } ) ) {
 
-          die __PACKAGE__, ": inline_routes must be a Hash Ref\n"
-            if ( ref(  $route->{inline_routes} ) ne 'HASH');
+            die __PACKAGE__, ": inline_routes must be a Hash Ref\n"
+              if ( ref( $route->{inline_routes} ) ne 'HASH' );
 
             $self->_make_routes( "INLINE", $rapp, $inline_key,
                 $route->{inline_routes}->{$inline_key},
-                $key, $resource, $config, $routes->{$key}->{stash} );
+                $config, $key, $resource, $routes->{$key}->{stash} );
 
         }
 
         foreach my $sub_route_key ( keys( %{ $route->{sub_routes} } ) ) {
 
-            $self->_make_routes( "SUB", $rapp, $sub_route_key,
+            $self->_make_routes(
+                "SUB",
+                $rapp,
+                $sub_route_key,
                 $route->{sub_routes}->{$sub_route_key},
-                $key, $resource, $config, $routes->{$key}->{stash} );
+                $config,
+                $key,
+                $resource,
+                $config,
+                $routes->{$key}->{stash}
+            );
 
         }
     }
@@ -97,8 +105,10 @@ sub register {
 
 sub _make_routes {
     my $self = shift;
-    my ( $type, $rapp, $key, $route, $parent, $resource, $config,
+    my ( $type, $rapp, $key, $route, $config, $parent, $resource,
         $parent_stash ) = @_;
+
+#warn("type=$type, rapp=$rapp, key=$key, route=$route,confo= $config,  parent=$parent,resource=$resource, staths=   $parent_stash ");
 
     my $route_stash = $route->{stash} || {};
 
@@ -131,9 +141,9 @@ sub _make_routes {
 
         $resource =
           $self->_api_routes( $rapp, $key, $route->{api}, $config->{api} )
-          if ( keys( %{ $route->{api} } ) );
+          if ( exists( $route->{api} ) );
 
-        return $resource;
+        return $resource || $key;
 
     }
 
@@ -178,13 +188,13 @@ sub _make_routes {
             $config->{api} )
           if ( exists( $route->{api} ) );
 
-        next
+        return
           if ( $route->{API_Only} );
 
         $rapp->route("/$parent/:id/$key")->via($methods)
-          ->to( "$parent#$action", $route_stash );
+          ->to( "$controller#$action", $route_stash );
         $rapp->route("/$parent/:id/$key/:child_id")->via($methods)
-          ->to( "$parent#$action", $route_stash );
+          ->to( "$controller#$action", $route_stash );
 
         warn(
 "$type    Route = /$parent/:id/$key->Via->[$methods_desc]->$controller#$action"
@@ -219,9 +229,6 @@ sub _api_routes {
     my $contoller_prefix = $config->{prefix} || "api";
 
     my $url = $self->_api_url( $resource, $config );
-
-
-
 
     warn(   "API ROOT  ->/" 
           . $url
@@ -292,14 +299,14 @@ sub _sub_api_routes {
     my $self = shift;
     my ( $rapi, $parent, $key, $api, $config ) = @_;
 
-    my $child_resource   = $api->{resource} || PL($key); 
+    my $child_resource   = $api->{resource} || PL($key);
     my $verbs            = $api->{verbs};
     my $stash            = $api->{stash} || {};
     my $child_controller = $api->{controller} || $child_resource;
     my $contoller_prefix = $config->{prefix} || "api";
     $stash->{parent} = $parent;
     $stash->{child}  = $child_resource;
-    my $url = $self->_api_url($parent,$config);
+    my $url = $self->_api_url( $parent, $config );
 
     warn(
 "API SUB   ->/$url/:id/$child_resource ->Via->GET-> $contoller_prefix-$parent#$child_resource"
@@ -373,25 +380,16 @@ sub _inline_api_routes {
 
     my $self = shift;
     my ( $rapi, $parent, $key, $api, $config ) = @_;
-    my $verbs = $api->{verbs};
-    my $child_resource = $api->{resource} || PL($key); #this should be action
-    my $stash = $api->{stash} || {};
+    my $verbs          = $api->{verbs};
+    my $child_resource = $api->{resource} || PL($key);    #this should be action
+    my $stash          = $api->{stash} || {};
     my $action = $api->{action} || $child_resource;
-    my $contoller_prefix = $config->{api}->{prefix} || "api";
+    my $contoller_prefix = $config->{prefix} || "api";
 
     $stash->{parent} = $parent;
     $stash->{child}  = $child_resource;
 
-      my $url = $self->_api_url($parent,$config);
-
-
-
-# warn("API INLINE->/" . $url . "/:id/$child_resource->Via->POST-> $contoller_prefix-$parent#$action" )
-# if ( $verbs->{CREATE} and $api->{DEBUG} );
-
-    # $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('POST')
-    # ->to( "$contoller_prefix-$parent#$action", $stash )
-    # if ( $verbs->{CREATE} );
+    my $url = $self->_api_url( $parent, $config );
 
     warn(   "API INLINE->/" 
           . $url
@@ -402,19 +400,14 @@ sub _inline_api_routes {
       ->to( "$contoller_prefix-$parent#$action", $stash )
       if ( $verbs->{RETREIVE} );
 
-# warn("API INLINE->/" . $parent . "/:id/$child_resource->Via->PUT-> $contoller_prefix-$parent#$child_resource" )
-# if ( $verbs->{REPLACE} and $api->{DEBUG} );
+    warn(   "API INLINE->/" 
+          . $url
+          . "/:id/$child_resource->Via->PATCH-> $contoller_prefix-$parent#$action"
+    ) if ( $verbs->{UPDATE} and $api->{DEBUG} );
 
-    # $rapi->route( "/" . $parent . "/:id/" . $child_resource )->via('PUT')
-    # ->to( "$contoller_prefix-$parent#$child_resource", $stash )
-    # if ( $verbs->{REPLACE} );
-
-warn("API INLINE->/" . $parent . "/:id/$child_resource->Via->PATCH-> $contoller_prefix-$parent#$child_resource" )
-if ( $verbs->{UPDATE} and $api->{DEBUG} );
-
-    $rapi->route( "/" . $parent . "/:id/" . $child_resource )->via('PATCH')
-    ->to( "$contoller_prefix-$parent#$child_resource", $stash )
-    if ( $verbs->{UPDATE} );
+    $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('PATCH')
+      ->to( "$contoller_prefix-$parent#$action", $stash )
+      if ( $verbs->{UPDATE} );
 
 }
 
@@ -425,7 +418,8 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Plugin::Routes::Restful- A plugin to generate Routes and RESTful api routes.
+Mojolicious::Plugin::Routes::Restful- A plugin to generate Routes and a RESTful api for those routes, 
+or just routes or just an RESTful API.
 
 =head1 VERSION
 
@@ -454,7 +448,7 @@ In you Mojo App:
                        inline_routes => {
                          detail => {
                            api => { 
-                           verbs => { UPDATE => 1 } }
+                           verbs => { RETREIVE => 1 } }
                          },
                        },
                        sub_routes => {
@@ -496,13 +490,13 @@ and the following restful API routes
   | Key    | /projects                     | GET    | api-projects#get                 |
   | Key    | /projects/:id                 | GET    | api-projects#get                 |
   | Key    | /projects                     | POST   | api-projects#create              |
-  | Key    | /projects/:id                 | PUT    | api-projects#update              |
+  | Key    | /projects/:id                 | PATCH  | api-projects#update              |
   | Key    | /projects/:id                 | DELETE | api-projects#delete              |
-  | Inline | /projects/:id/details         | PUT    | api-projects#details             |
+  | Inline | /projects/:id/details         | Get    | api-projects#details             |
   | Sub    | /projects/:id/users           | GET    | api-projects#users               |
   | Sub    | /projects/:id/users/:child_id | GET    | api-users#get parent=projects    |
   | Sub    | /projects/:id/users           | POST   | api-users#create parent=projects |
-  | Sub    | /projects/:id/users/:child_id | PUT    | api-users#update parent=projects |
+  | Sub    | /projects/:id/users/:child_id | PATCH  | api-users#update parent=projects |
   | Sub    | /projects/:id/users/:child_id | DELETE | api-users#delete parent=projects |
   +--------+-------------------------------+--------+----------------------------------+
 
