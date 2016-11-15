@@ -11,6 +11,8 @@ my $routes = $t->app->routes;
 
 use Data::Dumper;
 
+
+
 my $project = {
     1 => {
         id       => 1,
@@ -52,7 +54,31 @@ my $project = {
             name  => 'longterm 2',
             build => '2'
         }
-    }
+    },
+    4_1=> {
+        id       => 4,
+        name     => 'project 3',
+        type     => 'test type 3',
+        owner    => 'Bloggs 3',
+        users    => [ 'blogs 3', 'major 3' ],
+        contacts => [ 'George 3', 'John 3', 'Paul 3', 'Ringo 3' ],
+        planning => {
+            name  => 'longterm 3',
+            build => '3'
+        }
+    },
+    4_2 =>{replace=> {
+        id       => 4,
+        name     => 'project 3a',
+        type     => 'test type 3a',
+        owner    => 'Bloggs 3a',
+        users    => [ 'blogs 3a', 'major 3a' ],
+        contacts => [ 'George 3a', 'John 3a', 'Paul 3a', 'Ringo 3a' ],
+        planning => {
+            name  => 'longterm 3a',
+            build => '3a'
+        }
+    }}
 };
 
 my $project_new = {
@@ -61,7 +87,7 @@ my $project_new = {
     owner => 'Bloggs 3',
 };
 
-#check the non API gets
+#chet the gets
 
 $t->get_ok("/project")->status_is(200)->content_is('show all');
 $t->get_ok("/project/1")->status_is(200)->content_is('show for 1');
@@ -80,16 +106,18 @@ $t->get_ok("/project/2/user/2")->status_is(200)
 $t->get_ok("/project/1/contact")->status_is(200)
   ->content_is('all contacts for project=1');#
 $t->get_ok("/project/1/contact/1")->status_is(200)
-  ->content_is('contact=1, for project=1');#
+  ->content_is('contact=1, for project=1');
 $t->get_ok("/project/1/contact/2")->status_is(200)->content_is('contact=2, for project=1');#
-
-#and now the API routes
-
 $t->get_ok("/projects")->status_is(200)->json_is( '/1' => $project->{2} );
-$t->get_ok("/projects/1")->status_is(200)->json_is( $project->{1} );#
-$t->put_ok( "/projects/1" => form => $project->{update1} )->status_is(200);
-$t->get_ok("/projects/1")->status_is(200)
-  ->json_is( $project->{update_result1} );#
+$t->get_ok("/projects/1")->status_is(200)->json_is( $project->{1} );
+  $t->patch_ok( "/projects/1" => form => $project->{update1} )->status_is(200);
+  $t->get_ok("/projects/1")->status_is(200)->json_is( $project->{update_result1} );#
+  $t->get_ok("/projects/4")->status_is(200)->json_is( $project->{4_1} );#
+ 
+  $t->put_ok( "/projects/4" => form => $project->{3_2} )->status_is(200);
+  $t->get_ok("/projects/4")->status_is(200)->json_is( $project->{4_2}->{replace} );#
+
+  
 $t->post_ok( "/projects" => form => $project_new )->status_is(200)->json_is(
     {
         status => 200,
@@ -101,11 +129,12 @@ $t->get_ok("/projects/3")->status_is(200)->json_is($project_new);
 $t->delete_ok( "/projects/3" => form => $project_new )->status_is(200)
   ->json_is( { status => 200 } );
 $t->get_ok("/projects/3")->status_is(404);
-$t->put_ok( "/projects/2/longdetails" => form =>
+
+$t->patch_ok( "/projects/2/longdetails" => form =>
       { name => 'project 2a', type => 'test type 2a', } )->status_is(200);
 $t->get_ok("/projects/2")->status_is(200)->json_is( $project->{2} );    #
 
-$t->put_ok(
+$t->patch_ok(
     "/projects/2/planning" => form => {
         planning => {
             name  => 'longterm 2a',
@@ -113,12 +142,13 @@ $t->put_ok(
         }
     }
 )->status_is(200);
+
 $project->{2}->{planning} = {
     name  => 'longterm 2a',
     build => '2a'
 };
 $t->get_ok("/projects/2")->status_is(200)->json_is( $project->{2} );    #
-$t->put_ok( "/projects/1/details" => form => { owner => 'Blogs3' } )
+$t->patch_ok( "/projects/1/details" => form => { owner => 'Blogs3' } )
   ->status_is(200);
 $project->{1}->{owner} = 'Blogs3';
 $project->{1}->{type}  = 'test type 1a';
@@ -149,8 +179,7 @@ $t->get_ok("/projects/2/contacts/5")->status_is(200)
 $t->delete_ok("/projects/2/contacts/3")->status_is(200);
 $t->get_ok("/projects/2/contacts/3")->status_is(404);
 
-#note here the changes done with '/projects/1/users/' PUT/POST  will 
-#not be visable if you get call /projects/1/users as the data is not shared across 
-#contolers! Its is only a test or the route not the controller
+#note here '/projects/1/users/' will fail as the data is not shared across APIs
+#it is only a test really
 
 done_testing;

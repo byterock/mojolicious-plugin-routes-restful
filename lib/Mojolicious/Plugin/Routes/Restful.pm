@@ -214,11 +214,14 @@ sub _api_routes {
 
     my $resource         = $api->{resource} || PL($key);
     my $verbs            = $api->{verbs};
-    my $stash            = $child_resource->{stash} || {};
+    my $stash            = $api->{stash} || {};
     my $contoller        = $api->{controller} || $resource;
     my $contoller_prefix = $config->{prefix} || "api";
 
     my $url = $self->_api_url( $resource, $config );
+
+
+
 
     warn(   "API ROOT  ->/" 
           . $url
@@ -292,7 +295,7 @@ sub _sub_api_routes {
     my $child_resource   = $api->{resource} || PL($key); 
     my $verbs            = $api->{verbs};
     my $stash            = $api->{stash} || {};
-    my $child_controller = $api->{controller} || $resource;
+    my $child_controller = $api->{controller} || $child_resource;
     my $contoller_prefix = $config->{prefix} || "api";
     $stash->{parent} = $parent;
     $stash->{child}  = $child_resource;
@@ -381,12 +384,14 @@ sub _inline_api_routes {
 
       my $url = $self->_api_url($parent,$config);
 
-warn("API INLINE->/" . $url . "/:id/$child_resource->Via->POST-> $contoller_prefix-$parent#$action" )
-if ( $verbs->{CREATE} and $api->{DEBUG} );
 
-    $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('POST')
-    ->to( "$contoller_prefix-$parent#$action", $stash )
-    if ( $verbs->{CREATE} );
+
+# warn("API INLINE->/" . $url . "/:id/$child_resource->Via->POST-> $contoller_prefix-$parent#$action" )
+# if ( $verbs->{CREATE} and $api->{DEBUG} );
+
+    # $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('POST')
+    # ->to( "$contoller_prefix-$parent#$action", $stash )
+    # if ( $verbs->{CREATE} );
 
     warn(   "API INLINE->/" 
           . $url
@@ -404,12 +409,12 @@ if ( $verbs->{CREATE} and $api->{DEBUG} );
     # ->to( "$contoller_prefix-$parent#$child_resource", $stash )
     # if ( $verbs->{REPLACE} );
 
-# warn("API INLINE->/" . $parent . "/:id/$child_resource->Via->PATCH-> $contoller_prefix-$parent#$child_resource" )
-# if ( $verbs->{UPDATE} and $api->{DEBUG} );
+warn("API INLINE->/" . $parent . "/:id/$child_resource->Via->PATCH-> $contoller_prefix-$parent#$child_resource" )
+if ( $verbs->{UPDATE} and $api->{DEBUG} );
 
-    # $rapi->route( "/" . $parent . "/:id/" . $child_resource )->via('PATCH')
-    # ->to( "$contoller_prefix-$parent#$child_resource", $stash )
-    # if ( $verbs->{UPDATE} );
+    $rapi->route( "/" . $parent . "/:id/" . $child_resource )->via('PATCH')
+    ->to( "$contoller_prefix-$parent#$child_resource", $stash )
+    if ( $verbs->{UPDATE} );
 
 }
 
@@ -935,7 +940,7 @@ Like all the other route types you can add extra static data on all itmes along 
 
 =head3 inline API Verbs
 
-The inline API routes are limited to only two verbs 'CREATE' and 'RETEIVE' as inline routes do not have a
+The inline API routes are limited to only two verbs 'RETEIVE' and 'UPDATE' as inline routes do not have a
 specific 'child_id:' itentifier so a PUT, DELETE or PATCH action breaks the RESTfull model.  Though
 I guess 'DELETLE' could be valid but it would delete all itmes under something.  Does follow spec but not what 
 you would want it in you system.  
@@ -953,7 +958,7 @@ For example the following
                     inline_routes => 
                        { resume=>{
                           api => {verbs=>{RETREIVE => 1,
-                                  CREATE => 1,
+                                  UPDATE => 1,
                                   }
                                 }
                                }
@@ -962,13 +967,13 @@ For example the following
          
  would give you the following API routes
  
-  +--------+-----------------------+----- +--------------------  +------------------------------------+
-  |  Type  |    Route              | Via  | Controller#Action    | Stashed Values                     |
-  +--------+-----------------------+------+----------------------+------------------------------------+
-  | Key    | /projects             | GET  | api-projects#get     | parent = projects                  |
-  | Sub    | /projects/:id/resumes | GET  | api-projects#resumes | parent = projects, child = resumes |
-  | Sub    | /projects/:id/reusmes | POST | api-projects#resumes | parent = projects, child = resumes |
-  +--------+-----------------------+------+----------------------+------------------------------------+
+  +--------+-----------------------+-------+--------------------  +------------------------------------+
+  |  Type  |    Route              | Via   | Controller#Action    | Stashed Values                     |
+  +--------+-----------------------+-------+----------------------+------------------------------------+
+  | Key    | /projects             | GET   | api-projects#get     | parent = projects                  |
+  | Sub    | /projects/:id/resumes | GET   | api-projects#resumes | parent = projects, child = resumes |
+  | Sub    | /projects/:id/reusmes | PATCH | api-projects#resumes | parent = projects, child = resumes |
+  +--------+-----------------------+-------+----------------------+------------------------------------+
  
 =head4 Other Modififers
 
@@ -987,7 +992,7 @@ So with this hash
                     inline_routes => 
                        { resume=>{
                           api => {resource => resume,
-                                  action=>'get_or_create_resume',
+                                  action=>'get_or_update_resume',
                                   verbs=>{RETREIVE => 1,
                                   CREATE => 1}
                                   }
@@ -997,15 +1002,16 @@ So with this hash
          
  would give you the following API routes
  
-  +--------+----------------------+----- +-----------------------------------+------------------------------------+
-  |  Type  |    Route             | Via  | Controller#Action                 | Stashed Values                     |
-  +--------+----------------------+------+-----------------------------------+------------------------------------+
-  | Key    | /projects            | GET  | api-projects#get                  | parent = projects                  |
-  | Sub    | /projects/:id/resume | GET  | api-projects#get_or_create_resume | parent = projects, child = resumes |
-  | Sub    | /projects/:id/reusme | POST | api-projects#get_or_create_resume | parent = projects, child = resumes |
-  +--------+-----------------------+------+----------------------------------+------------------------------------+
+  +--------+----------------------+-------+-----------------------------------+------------------------------------+
+  |  Type  |    Route             | Via   | Controller#Action                 | Stashed Values                     |
+  +--------+----------------------+-------+-----------------------------------+------------------------------------+
+  | Key    | /projects            | GET   | api-projects#get                  | parent = projects                  |
+  | Sub    | /projects/:id/resume | GET   | api-projects#get_or_update_resume | parent = projects, child = resumes |
+  | Sub    | /projects/:id/reusme | PATCH | api-projects#get_or_update_resume | parent = projects, child = resumes |
+  +--------+----------------------+-------+-----------------------------------+------------------------------------+
 
-By the way is is not very good RESTful design to have a singular noun as a resosurce.
+By the way is is not very good RESTful design to have a singular noun as a resosurce and to do an update to a child
+without an ID for that child. 
 
 =head4 stash
 

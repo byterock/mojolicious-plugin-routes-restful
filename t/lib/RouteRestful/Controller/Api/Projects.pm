@@ -3,7 +3,7 @@ package RouteRestful::Controller::Api::Projects;
 use strict;
 use warnings;
 use Data::Dumper;
-use base 'Mojolicious::Controller';
+use v5.10;
 
 my $project = {
     1 => {
@@ -29,13 +29,29 @@ my $project = {
             name  => 'longterm 2',
             build => 2
         }
-    }
+    },
+    4 => {
+        id       => 4,
+        name     => 'project 3',
+        type     => 'test type 3',
+        owner    => 'Bloggs 3',
+        users    => [ 'blogs 3', 'major 3' ],
+        contacts => [ 'George 3', 'John 3', 'Paul 3', 'Ringo 3' ],
+        planning => {
+            name  => 'longterm 3',
+            build => '3'
+        }
+    },
+   
 };
 
-
+use base 'Mojolicious::Controller';
 
 sub create {
     my $self = shift;
+    
+    warn("Api::Projects create id=".$self->param('id'));
+
     if ( $self->param('id') ) {
         return $self->render( json => { status => 404 } );
     }
@@ -60,6 +76,8 @@ sub create {
 sub update {
     my $self = shift;
 
+# warn("Api::Projects update id=".$self->param('id'));
+
     if ( $self->param('id') ) {
         my $out = $project->{ $self->param('id') };
         foreach my $in_key (qw(type name owner)) {
@@ -76,9 +94,45 @@ sub update {
 
 }
 
-sub get {
+sub replace {
     my $self = shift;
 
+# warn("Api::Projects replace id=".$self->param('id'));
+
+    if ( $self->param('id') ) {
+        
+        my $replace ={
+        id       => 4,
+        name     => 'project 3a',
+        type     => 'test type 3a',
+        owner    => 'Bloggs 3a',
+        users    => [ 'blogs 3a', 'major 3a' ],
+        contacts => [ 'George 3a', 'John 3a', 'Paul 3a', 'Ringo 3a' ],
+        planning => {
+            name  => 'longterm 3a',
+            build => '3a'
+        }
+    };
+        my $old_id = $self->param('id');
+      
+         delete($project->{ $old_id });
+         $project->{ $old_id } =   $replace;
+
+
+         # warn("Api::Projects 2 id=".Dumper($project));    
+         
+        $self->render( json => { status => 200 } );
+    }
+    else {
+        return $self->rendered(404);
+
+    }
+
+}
+
+sub get {
+    my $self = shift;
+# warn("Api::Projects get id=".$self->param('id'));
     my $out;
     if ( $self->param('id') ) {
         $out = $project->{ $self->param('id') };
@@ -86,6 +140,9 @@ sub get {
     else {
         $out = [ map { $project->{$_} } sort keys %{$project} ];
     }
+    
+    # warn("Api::Projects get id=".Dumper($out));
+
     if ($out) {
         $self->render( json => $out );
     }

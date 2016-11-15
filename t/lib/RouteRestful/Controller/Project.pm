@@ -2,7 +2,7 @@ package RouteRestful::Controller::Project;
 
 use strict;
 use warnings;
-
+use v5.10;
 use Mojo::Base 'Mojolicious::Controller';
 
 
@@ -97,6 +97,7 @@ sub contact {
         $text = 'all contacts for project=' . $self->param('id');
 
     }
+
 
     $self->render( text => $text, );
 }
