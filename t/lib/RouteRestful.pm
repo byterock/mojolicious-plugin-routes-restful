@@ -7,13 +7,13 @@ sub startup {
     $self->plugin(
         "Routes::Restful",
         { 
-            Config => { Namespaces => ['RouteRestful::Controller'] },
-            Routes => {
+            CONFIG => { Namespaces => ['RouteRestful::Controller'] },
+            PARENT => {
                 project => {
                     #DEBUG => 1,
-                    api   => {
+                    API   => {
                         #DEBUG => 1,
-                        verbs => {
+                        VERBS => {
                             CREATE   => 1,
                             UPDATE   => 1,
                             RETREIVE => 1,
@@ -21,35 +21,35 @@ sub startup {
                             DELETE   => 1
                         },
                     },
-                    inline_routes => {
+                    INLINE => {
                         detail => {
                             #DEBUG => 1,
-                            api   => { verbs => { UPDATE   => 1,
+                            API   => { VERBS => { UPDATE   => 1,
                                                   RETREIVE => 1 } }
                         },
                         planning => {
                             #DEBUG => 1,
-                            api => {
+                            API => {
                                #DEBUG => 1,
-                                resource => 'planning',
-                                verbs    => { UPDATE   => 1,
+                                RESOURCE => 'planning',
+                                VERBS    => { UPDATE   => 1,
                                               RETREIVE => 1 }
                             }
                         },
                         longdetail => {
                             #DEBUG => 1,
-                            api   => {
+                            API   => {
                                #DEBUG => 1,
-                                verbs => { UPDATE => 1 }
+                                VERBS => { UPDATE => 1 }
                             }
                         }
                     },
-                    sub_routes => {
+                    CHILD => {
                         user => {
                                                             #DEBUG => 1,
-                            api => {
+                            API => {
                                 #DEBUG => 1,
-                                verbs => {
+                                VERBS => {
                                     CREATE   => 1,
                                     RETREIVE => 1,
                                     REPLACE  => 1,
@@ -60,9 +60,9 @@ sub startup {
                         },
                         contact => {
                                                             #DEBUG => 1,
-                            api => {
+                            API => {
                                 #DEBUG => 1,
-                                verbs => {
+                                VERBS => {
                                     CREATE   => 1,
                                     REPLACE  => 1,
                                     RETREIVE => 1,

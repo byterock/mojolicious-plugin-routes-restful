@@ -87,31 +87,20 @@ my $project_new = {
     owner => 'Bloggs 3',
 };
 
-#chet the gets
 
 
- $t->get_ok("/project")->status_is(200)->content_is('show all');
- $t->get_ok("/project/1")->status_is(200)->content_is('show for 1');
- $t->post_ok( "/project" => form => { mode => 'new' } )->status_is(200)->content_is('New for 2');
- $t->post_ok( "/project/1" => form => { mode => 'update' } )->status_is(200)->content_is('update for 1');
- $t->get_ok("/lab")->status_is(200)->content_is('show all'); $t->get_ok("/lab/1")->status_is(404);
- $t->get_ok("/office/1")->status_is(200)->content_is('show for 1');
- $t->get_ok("/office")->status_is(404); #we do not want these
- $t->get_ok("/papers")->status_is(404);  #we do not want these
- $t->get_ok("/papers/1")->status_is(404); #we do not want these
- $t->get_ok("/project/1/detail")->status_is(200)->content_is('show for 1');
- $t->post_ok( "/project/1/detail" => form => { mode => 'new' } )->status_is(200)->content_is('update for 1');
- $t->get_ok("/project/1/planning")->status_is(404); #we do not want these
- $t->post_ok("/project/1/planning")->status_is(404); #we do not want these
- $t->patch_ok( "/project/1/user" => form => { mode => 'new' } )->status_is(200)->content_is('Patch all users under project1');
- $t->patch_ok( "/project/2/user/2" => form => { mode => 'new' } )->status_is(200)->content_is('Patch for project=2 user=2');
- $t->put_ok( "/project/1/user" => form => { mode => 'new' } )->status_is(200)->content_is('Put all users under project1');
- $t->put_ok( "/project/1/user/2" => form => { mode => 'new' } )->status_is(200)->content_is('Put for project=1 user=2');
- $t->delete_ok( "/project/1/user" => form => { mode => 'new' } )->status_is(200)->content_is('delete all users under project1');
- $t->delete_ok( "/project/1/user/1" => form => { mode => 'new' } )->status_is(200)->content_is('delete for project=1 user=1');
- $t->get_ok("/project/1/contact")->status_is(404); #we do not want these
- $t->get_ok("/project/1/contact/id")->status_is(404); #we do not want these
-
+  $t->get_ok("/V_1/myapp/paper")->status_is(200); #->json_is( '/1' => $project->{2} );
+  # $t->get_ok("/V_1/myapp/paper/1")->status_is(200);#->json_is( $project->{1} );
+
+  # $t->get_ok("/V_1/myapp/project/1/my_details")->status_is(200); #->json_is( '/1' => $project->{2} );
+  # $t->get_ok("/V_1/myapp/project/1/my_details/2")->status_is(404);#->json_is( $project->{1} );
+  # $t->get_ok("/V_1/myapp/project/1/planning")->status_is(200);#->json_is( $project->{1} );
+  # $t->get_ok("/V_1/myapp/project/1/planning/2")->status_is(404);#->json_is( $project->{1} );
+  
+  # $t->get_ok("/V_1/myapp/project/1/view_users")->status_is(200);#->json_is( $project->{1} );
+
+  # $t->get_ok("/V_1/myapp/project/1/view_users/1")->status_is(200);#->json_is( $project->{1} );
+  
 #it is only a test really
 
 done_testing;

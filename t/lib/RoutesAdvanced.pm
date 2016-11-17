@@ -7,11 +7,11 @@ sub startup {
     $self->plugin(
         "Routes::Restful",
         {
-            Config => {
-                api => {
-                    resource_ver    => 'V_1',
-                    resource_prefix => 'myapp',
-                    prefix          => 'ipa'
+            CONFIG => {
+                API => {
+                    VERSION    => 'V_1',
+                    RESOURCE_PREFIX => 'myapp',
+                    PRIFIX          => 'ipa'
                 },
                 Namespaces => [
                     'RoutesAdvanced::Controller',
@@ -20,78 +20,79 @@ sub startup {
                     'RoutesAdvanced::Controller::Ipa::Projects',
                 ]
             },
-            Routes => {
+            PARENT => {
+                
                 lab => {
-                    No_ID => 1,
+                    NO_ID => 1,
 
                     #DEBUG => 1,
 
                 },
                 office => {
-                    No_Root => 1,
+                    NO_ROOT => 1,
                     #DEBUG   => 1,
                 },
                 papers => {
-                    API_Only => 1,
+                    API_ONLY => 1,
 
                     #DEBUG => 1,
-                    api => 
-                    {resource=>'paper',
-                        controller     => 'papers',
+                    API => 
+                    {RESOURCE=>'paper',
+                        CONTROLLER     => 'papers',
                         #DEBUG => 1,
-                        verbs => { RETREIVE => 1, },
+                        VERBS => { RETREIVE => 1, },
                     },
 
                 },
                 project => {
-                    action     => 'process',
-                    controller => 'my-project',
-                    via        => [ 'get', 'post' ],
+                    ACTION     => 'process',
+                    CONTROLLER => 'my-project',
+                    VIA        => [ 'get', 'post' ],
 
                     #DEBUG => 1,
-                    inline_routes => {
+                    INLINE => {
                         detail => {
 
                             #DEBUG => 1,
-                            action     => 'project',
-                            controller => 'detail',
-                            via        => [ 'get', 'post' ],
-                            api        => {
+                            ACTION     => 'project',
+                            CONTROLLER => 'detail',
+                            VIA        => [ 'get', 'post' ],
+                            API        => {
                                 #DEBUG => 1,
-                                action     => 'mydeatails',
-                                resource  => 'my_details',
-                                verbs => {
+                                ACTION     => 'mydeatails',
+                                RESOURCE  => 'my_details',
+                                VERBS => {
                                     RETREIVE => 1
                                 }
                             }
                         },
                         planning => {
                             #DEBUG    => 1,
-                            API_Only => 1,
-                            api      => {
+                            API_ONLY => 1,
+                            API      => {
 
                                 #DEBUG => 1,
-                                resource => 'planning',
-                                verbs    => {
+                                RESOURCE => 'planning',
+                                VERBS    => {
                                       
                                      RETREIVE => 1
                                 }
                             }
                         },
                     },
-                    sub_routes => {
+                    CHILD => {
                         user => {
-                            action     => 'my_projects',
-                            controller => 'my-user',
-                            via        => [ 'delete', 'patch', 'put' ],
+                            ACTION     => 'my_projects',
+                            CONTROLLER => 'my-user',
+                            VIA        => [ 'delete', 'patch', 'put' ],
 
                             #DEBUG => 1,
 
-                            api => {
-                                controller => 'projects-user',
-                                resource   => 'view_users',
-                                DEBUG => 1,
-                                verbs => {
+                            API => {
+                                CONTROLLER => 'projects-user',
+                                RESOURCE   => 'view_users',
+                               #DEBUG => 1,
+                                VERBS => {
                                     RETREIVE => 1,
                                 }
                             }
@@ -99,11 +100,11 @@ sub startup {
                         contact => {
 
                             #DEBUG => 1,
-                            API_Only => 1,
-                            api      => {
+                            API_ONLY => 1,
+                            API      => {
 
                                 #DEBUG => 1,
-                                verbs => {
+                                VERBS => {
                                     CREATE   => 1,
                                     REPLACE  => 1,
                                     RETREIVE => 1,

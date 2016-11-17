@@ -9,7 +9,7 @@ use Data::Dumper;
 sub process {
 
     my $self = shift;
-warn("JSP =".$self->req->method);
+#warn("JSP =".$self->req->method);
 
     if ($self->req->method eq 'GET'){
         
