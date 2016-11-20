@@ -74,7 +74,6 @@ sub startup {
                                 #DEBUG => 1,
                                 RESOURCE => 'planning',
                                 VERBS    => {
-                                      
                                      RETREIVE => 1
                                 }
                             }

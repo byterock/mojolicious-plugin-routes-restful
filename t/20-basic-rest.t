@@ -11,8 +11,6 @@ my $routes = $t->app->routes;
 
 use Data::Dumper;
 
-
-
 my $project = {
     1 => {
         id       => 1,
@@ -55,7 +53,7 @@ my $project = {
             build => '2'
         }
     },
-    4_1=> {
+    4_1 => {
         id       => 4,
         name     => 'project 3',
         type     => 'test type 3',
@@ -67,18 +65,20 @@ my $project = {
             build => '3'
         }
     },
-    4_2 =>{replace=> {
-        id       => 4,
-        name     => 'project 3a',
-        type     => 'test type 3a',
-        owner    => 'Bloggs 3a',
-        users    => [ 'blogs 3a', 'major 3a' ],
-        contacts => [ 'George 3a', 'John 3a', 'Paul 3a', 'Ringo 3a' ],
-        planning => {
-            name  => 'longterm 3a',
-            build => '3a'
+    4_2 => {
+        replace => {
+            id       => 4,
+            name     => 'project 3a',
+            type     => 'test type 3a',
+            owner    => 'Bloggs 3a',
+            users    => [ 'blogs 3a', 'major 3a' ],
+            contacts => [ 'George 3a', 'John 3a', 'Paul 3a', 'Ringo 3a' ],
+            planning => {
+                name  => 'longterm 3a',
+                build => '3a'
+            }
         }
-    }}
+    }
 };
 
 my $project_new = {
@@ -89,17 +89,17 @@ my $project_new = {
 
 #chet the gets
 
-
 $t->get_ok("/projects")->status_is(200)->json_is( '/1' => $project->{2} );
 $t->get_ok("/projects/1")->status_is(200)->json_is( $project->{1} );
-  $t->patch_ok( "/projects/1" => form => $project->{update1} )->status_is(200);
-  $t->get_ok("/projects/1")->status_is(200)->json_is( $project->{update_result1} );#
-  $t->get_ok("/projects/4")->status_is(200)->json_is( $project->{4_1} );#
- 
-  $t->put_ok( "/projects/4" => form => $project->{3_2} )->status_is(200);
-  $t->get_ok("/projects/4")->status_is(200)->json_is( $project->{4_2}->{replace} );#
+$t->patch_ok( "/projects/1" => form => $project->{update1} )->status_is(200);
+$t->get_ok("/projects/1")->status_is(200)
+  ->json_is( $project->{update_result1} );    #
+$t->get_ok("/projects/4")->status_is(200)->json_is( $project->{4_1} );    #
 
-  
+$t->put_ok( "/projects/4" => form => $project->{3_2} )->status_is(200);
+$t->get_ok("/projects/4")->status_is(200)
+  ->json_is( $project->{4_2}->{replace} );                                #
+
 $t->post_ok( "/projects" => form => $project_new )->status_is(200)->json_is(
     {
         status => 200,
@@ -112,7 +112,7 @@ $t->delete_ok( "/projects/3" => form => $project_new )->status_is(200)
   ->json_is( { status => 200 } );
 $t->get_ok("/projects/3")->status_is(404);
 
-$t->patch_ok( "/projects/2/longdetails" => form =>
+$t->patch_ok( "/projects/2/longdetails" => form =>
       { name => 'project 2a', type => 'test type 2a', } )->status_is(200);
 $t->get_ok("/projects/2")->status_is(200)->json_is( $project->{2} );    #
 
