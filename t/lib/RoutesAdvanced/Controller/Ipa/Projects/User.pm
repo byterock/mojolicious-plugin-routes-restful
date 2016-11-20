@@ -35,7 +35,6 @@ my $project = {
 
 sub get {
     my $self = shift;
-    warn("JSP");
      if ( $self->req->method eq 'GET' ) {
 
          $self->render( json => { status => 200 } );

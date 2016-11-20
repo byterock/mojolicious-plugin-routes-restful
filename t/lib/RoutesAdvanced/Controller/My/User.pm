@@ -8,7 +8,6 @@ use Mojo::Base 'Mojolicious::Controller';
 sub my_projects {
 
     my $self = shift;
-#    warn( "JSP =" . $self->req->method );
 
     if ( $self->req->method eq 'PUT' ) {
 

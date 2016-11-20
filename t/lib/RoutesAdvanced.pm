@@ -13,7 +13,7 @@ sub startup {
                     RESOURCE_PREFIX => 'myapp',
                     PRIFIX          => 'ipa'
                 },
-                Namespaces => [
+                NAMESPACES => [
                     'RoutesAdvanced::Controller',
                     'RoutesAdvanced::Controller::My',
                     'RoutesAdvanced::Controller::Ipa',

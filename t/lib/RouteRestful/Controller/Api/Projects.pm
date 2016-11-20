@@ -50,8 +50,6 @@ use base 'Mojolicious::Controller';
 sub create {
     my $self = shift;
     
-    warn("Api::Projects create id=".$self->param('id'));
-
     if ( $self->param('id') ) {
         return $self->render( json => { status => 404 } );
     }

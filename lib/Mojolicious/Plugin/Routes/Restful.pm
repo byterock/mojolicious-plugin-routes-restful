@@ -52,7 +52,7 @@ sub register {
           unless exists( $args->{$sub_ref} );
     }
 
-    for my $sub_ref (qw/ Namespaces /) {
+    for my $sub_ref (qw/ NAMESPACES /) {
         die __PACKAGE__, ": missing '$sub_ref' Array in CONFIG has parameter\n"
           unless ( exists( $args->{CONFIG}->{$sub_ref} )
             and ref( $args->{CONFIG}->{$sub_ref} ) eq 'ARRAY' );
@@ -62,7 +62,7 @@ sub register {
     my $rapp   = $app->routes;
     my $routes = $args->{PARENT};
 
-    $rapp->namespaces( $config->{'Namespaces'} );
+    $rapp->namespaces( $config->{'NAMESPACES'} );
 
     foreach my $key ( keys( %{$routes} ) ) {
 
@@ -86,14 +86,10 @@ sub register {
         foreach my $sub_route_key ( keys( %{ $route->{CHILD} } ) ) {
 
             $self->_make_routes(
-                "CHILD",
-                $rapp,
-                $sub_route_key,
-                $route->{CHILD}->{$sub_route_key},
-                $config,
-                $key,
-                $resource,
-                $config,
+                "CHILD",        $rapp,
+                $sub_route_key, $route->{CHILD}->{$sub_route_key},
+                $config,        $key,
+                $resource,      $config,
                 $routes->{$key}->{STASH}
             );
 
@@ -121,7 +117,7 @@ sub _make_routes {
 
     if ( $type eq 'PARENT' ) {
 
-        unless (  exists($route->{NO_ROOT}) ||  exists($route->{API_ONLY}) ) {
+        unless ( exists( $route->{NO_ROOT} ) || exists( $route->{API_ONLY} ) ) {
             $rapp->route("/$key")->via($methods)
               ->to( "$controller#$action", $route_stash );
 
@@ -130,7 +126,7 @@ sub _make_routes {
             ) if ( $route->{DEBUG} );
         }
 
-        unless ( exists($route->{NO_ID}) || exists($route->{API_ONLY}) ) {
+        unless ( exists( $route->{NO_ID} ) || exists( $route->{API_ONLY} ) ) {
             $rapp->route("/$key/:id")->via($methods)
               ->to( "$controller#$action", $route_stash );
 
@@ -161,13 +157,13 @@ sub _make_routes {
           if ( exists( $route->{API} ) );
 
         return
-          if (  exists($route->{API_ONLY}) );
+          if ( exists( $route->{API_ONLY} ) );
 
         warn(
 "$type Route = /$parent/:id/$key->Via->[$methods_desc]->$controller#$action"
         ) if ( $route->{DEBUG} );
 
-        if ( exists($route->{NO_ID}) ) {
+        if ( exists( $route->{NO_ID} ) ) {
 
             warn(
 "$type    Route = /$parent/$key->Via->[$methods_desc]->$controller#$action"
@@ -189,7 +185,7 @@ sub _make_routes {
           if ( exists( $route->{API} ) );
 
         return
-          if (  exists($route->{API_ONLY}) );
+          if ( exists( $route->{API_ONLY} ) );
 
         $rapp->route("/$parent/:id/$key")->via($methods)
           ->to( "$controller#$action", $route_stash );
@@ -210,9 +206,8 @@ sub _make_routes {
 sub _api_url {
     my $self = shift;
     my ( $resource, $config ) = @_;
-    my $ver    = $config->{VERSION}    || "";
+    my $ver    = $config->{VERSION}         || "";
     my $prefix = $config->{RESOURCE_PREFIX} || "";
-
     my $url = join( "/", grep( $_ ne "", ( $ver, $prefix, $resource ) ) );
     return $url;
 }
@@ -344,11 +339,11 @@ sub _sub_api_routes {
           . $url
           . "/:id/$child_resource/:child_id->Via->PUT-> $contoller_prefix-$child_controller#replace"
       )
-      if ( $verbs->{REPALCE} )
+      if ( $verbs->{REPLACE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource . "/:child_id" )
-      ->via('PUT')->to( "$contoller_prefix-$child_controller#update", $stash )
+      ->via('PUT')->to( "$contoller_prefix-$child_controller#replace", $stash )
       if ( $verbs->{REPLACE} );
 
     warn(   "API CHILD   ->/" 
@@ -359,7 +354,7 @@ sub _sub_api_routes {
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource . "/:child_id" )
-      ->via('PUT')->to( "$contoller_prefix-$child_controller#update", $stash )
+      ->via('PATCH')->to( "$contoller_prefix-$child_controller#update", $stash )
       if ( $verbs->{PATCH} );
 
     warn(   "API CHILD   ->/" 
@@ -435,7 +430,7 @@ In you Mojo App:
   sub startup {
     my $self = shift;
     my $r = $self->plugin( "Routes::Restful", => {
-                   Config => { Namespaces => ['Controller'] },
+                   Config => { NAMESPACES => ['Controller'] },
                    PARENT => {
                      project => {
                        API   => {

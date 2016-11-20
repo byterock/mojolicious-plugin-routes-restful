@@ -7,7 +7,7 @@ sub startup {
     $self->plugin(
         "Routes::Restful",
         { 
-            CONFIG => { Namespaces => ['RouteRestful::Controller'] },
+            CONFIG => { NAMESPACES => ['RouteRestful::Controller'] },
             PARENT => {
                 project => {
                     #DEBUG => 1,
