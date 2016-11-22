@@ -101,17 +101,17 @@ Well none! Like the L<'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> i
 If you know all about routes just skip to the next section otherwise take a few minutes to go over the basic concepts this doc will use.
 If you are not fully familiar with L<Mojolicious::Guides::Routing> have a look at L<Mojolicious::Guides::Routing> for some info.  
 
-=head5 Route
+=head4 Route
 The URL pattern that you are opening up that leads to a 'sub' in a controller 'class' which returns some content from the system.
 
-=head5 Action
+=head4 Action
 
 The 'sub' in the '.pm' file (class) that the route will invoke.
 
-=head5 Controller
+=head4 Controller
 This is the '.pm' file (class) file that a route will use to find its action 'sub' in. 
 
-=head5 Parent or Child Resource
+=head4 Parent or Child Resource
 
 The named part of a route. Given this route
 
@@ -120,20 +120,20 @@ The named part of a route. Given this route
 The parent resource is 'project' and the child is 'user', with the parent ':id' identifier between the two and the ':child_id' identifier at the end. 
 Usually just referred to as a resource. 
 
-=head5 id: and child_id: Identifiers
+=head4 id: and child_id: Identifiers
 
 The part of a route that identifies a single resource.  99.9872% of the time it is an number but it could be anything.  
 
-=head5 RESTFul Resources
+=head4 RESTFul Resources
 
 RESTful APIs should always use the plural form of a noun for parent and child resources and a number as an identifier. Normally RESTful
 resources point to data and not content.  As well a resource should not used to filter the data.  
 
-=head5 Resource Entity
+=head4 Resource Entity
 
 The end content that a route will return in response to a request. Can be any form of content.
 
-=head5 RESTful Entity
+=head4 RESTful Entity
 
 This usually means a specific block of data that is stored someplace that a route will return.  In RESTful resources there is an expectation  
 of certain entity result from a route with a given HTTP verb. The table below lists out the expected results of a well
@@ -158,7 +158,7 @@ designed RESTFul API and is the pattern that this Plugin enforces.
   
 You might notice that collection DELELTE, PUT and PATCH is not present. This is by design. 
 
-=head5 HTTP Via Verbs
+=head4 HTTP Via Verbs
 
 In the good old days we only had two of these 'GET' and 'POST', now it seems a new one comes out every month. In this doc they are simply use the term
 Via for this in most places.
@@ -426,11 +426,11 @@ The value must a Hashref with at least 1 key pair defined.
  
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
-=head5 ACTION
-=head5 CONTROLLER
-=head5 NO_ID
-=head5 API_ONLY
-=head5 VIA
+=head4 ACTION
+=head4 CONTROLLER
+=head4 NO_ID
+=head4 API_ONLY
+=head4 VIA
 
 =head3 CHILD Type
 
@@ -470,10 +470,10 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=head5 ACTION
-=head5 CONTROLLER
-=head5 API_ONLY
-=head5 VIA
+=head4 ACTION
+=head4 CONTROLLER
+=head4 API_ONLY
+=head4 VIA
 
 =head2 API Attribute
 
