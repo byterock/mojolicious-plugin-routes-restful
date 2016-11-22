@@ -1,3 +1,4 @@
+
 =pod
 
 =head1 NAME
@@ -100,17 +101,17 @@ Well none! Like the L<'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> i
 If you know all about routes just skip to the next section otherwise take a few minutes to go over the basic concepts this doc will use.
 If you are not fully familiar with L<Mojolicious::Guides::Routing> have a look at L<Mojolicious::Guides::Routing> for some info.  
 
-=over 4 Route
+=head5 Route
 The URL pattern that you are opening up that leads to a 'sub' in a controller 'class' which returns some content from the system.
 
-=over 4 Action
+=head5 Action
 
 The 'sub' in the '.pm' file (class) that the route will invoke.
 
-=over 4 Controller
+=head5 Controller
 This is the '.pm' file (class) file that a route will use to find its action 'sub' in. 
 
-=over 4 Parent or Child Resource
+=head5 Parent or Child Resource
 
 The named part of a route. Given this route
 
@@ -119,20 +120,20 @@ The named part of a route. Given this route
 The parent resource is 'project' and the child is 'user', with the parent ':id' identifier between the two and the ':child_id' identifier at the end. 
 Usually just referred to as a resource. 
 
-=over 4 id: and child_id: Identifiers
+=head5 id: and child_id: Identifiers
 
 The part of a route that identifies a single resource.  99.9872% of the time it is an number but it could be anything.  
 
-=over 4 RESTFul Resources
+=head5 RESTFul Resources
 
 RESTful APIs should always use the plural form of a noun for parent and child resources and a number as an identifier. Normally RESTful
 resources point to data and not content.  As well a resource should not used to filter the data.  
 
-=over 4 Resource Entity
+=head5 Resource Entity
 
 The end content that a route will return in response to a request. Can be any form of content.
 
-=over 4 RESTful Entity
+=head5 RESTful Entity
 
 This usually means a specific block of data that is stored someplace that a route will return.  In RESTful resources there is an expectation  
 of certain entity result from a route with a given HTTP verb. The table below lists out the expected results of a well
@@ -157,7 +158,7 @@ designed RESTFul API and is the pattern that this Plugin enforces.
   
 You might notice that collection DELELTE, PUT and PATCH is not present. This is by design. 
 
-=over 4 HTTP Via Verbs
+=head5 HTTP Via Verbs
 
 In the good old days we only had two of these 'GET' and 'POST', now it seems a new one comes out every month. In this doc they are simply use the term
 Via for this in most places.
@@ -425,11 +426,11 @@ The value must a Hashref with at least 1 key pair defined.
  
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
-=over 4 ACTION
-=over 4 CONTROLLER
-=over 4 NO_ID
-=over 4 API_ONLY
-=over 4 VIA
+=head5 ACTION
+=head5 CONTROLLER
+=head5 NO_ID
+=head5 API_ONLY
+=head5 VIA
 
 =head3 CHILD Type
 
@@ -469,10 +470,10 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=over 4 ACTION
-=over 4 CONTROLLER
-=over 4 API_ONLY
-=over 4 VIA
+=head5 ACTION
+=head5 CONTROLLER
+=head5 API_ONLY
+=head5 VIA
 
 =head2 API Attribute
 
@@ -852,7 +853,7 @@ would have only these routes
   | Child  | V_1_1/projects/:id/user/:child_id | PUT    | api-my_users#replace | parent = projects, child = user |
   | Child  | V_1_1/projects/:id/user/:child_id | PATCH  | api-my_users#update  | parent = projects, child = user |
   | Child  | V_1_1/projects/:id/user/:child_id | DELETE | api-my_users#delete  | parent = projects, child = user |
-  +--------+-----------------------+------+--------+----------------------+---------------------------------+
+  +--------+-----------------------------------+--------+----------------------+---------------------------------+
 
 The value must be a valid SCALAR.
 
@@ -988,5 +989,3 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 See http://dev.perl.org/licenses/ for more information.
-
-=cut
