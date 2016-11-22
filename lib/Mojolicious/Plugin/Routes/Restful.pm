@@ -511,17 +511,17 @@ Well none! Like the L<'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> i
 If you know all about routes just skip to the next section otherwise take a few minutes to go over the basic concepts this doc will use.
 If you are not fully familiar with L<Mojolicious::Guides::Routing> have a look at L<Mojolicious::Guides::Routing> for some info.  
 
-=over4 Route
+=over 4 Route
 The URL pattern that you are opening up that leads to a 'sub' in a controller 'class' which returns some content from the system.
 
-=over4 Action
+=over 4 Action
 
 The 'sub' in the '.pm' file (class) that the route will invoke.
 
-=over4 Controller
+=over 4 Controller
 This is the '.pm' file (class) file that a route will use to find its action 'sub' in. 
 
-=over4 Parent or Child Resource
+=over 4 Parent or Child Resource
 
 The named part of a route. Given this route
 
@@ -530,20 +530,20 @@ The named part of a route. Given this route
 The parent resource is 'project' and the child is 'user', with the parent ':id' identifier between the two and the ':child_id' identifier at the end. 
 Usually just referred to as a resource. 
 
-=over4 id: and child_id: Identifiers
+=over 4 id: and child_id: Identifiers
 
 The part of a route that identifies a single resource.  99.9872% of the time it is an number but it could be anything.  
 
-=over4 RESTFul Resources
+=over 4 RESTFul Resources
 
 RESTful APIs should always use the plural form of a noun for parent and child resources and a number as an identifier. Normally RESTful
 resources point to data and not content.  As well a resource should not used to filter the data.  
 
-=over4 Resource Entity
+=over 4 Resource Entity
 
 The end content that a route will return in response to a request. Can be any form of content.
 
-=over4 RESTful Entity
+=over 4 RESTful Entity
 
 This usually means a specific block of data that is stored someplace that a route will return.  In RESTful resources there is an expectation  
 of certain entity result from a route with a given HTTP verb. The table below lists out the expected results of a well
@@ -561,14 +561,14 @@ designed RESTFul API and is the pattern that this Plugin enforces.
   | /projects/22          | PUT    | Replace a Singleton | Project #22 replaced              |
   | /projects/22/users/44 | PUT    | Replace a Singleton | User #44 replaced                 |
   | /projects/22          | PATCH  | Update a Singleton  | Project #22 Updated               |
-  | /projects/22/users/44 | PATCH  | Update a Singleton  | Project User #44 Updated         |
+  | /projects/22/users/44 | PATCH  | Update a Singleton  | Project User #44 Updated          |
   | /projects/22          | DELETE | Delete a Singleton  | Project #22 Deleted               |
   | /projects/22/users/44 | DELETE | Singleton           | Project User #44 Deleted          |
   +-----------------------+--------+---------------------+-----------------------------------+
   
 You might notice that collection DELELTE, PUT and PATCH is not present. This is by design. 
 
-=over4 HTTP Via Verbs
+=over 4 HTTP Via Verbs
 
 In the good old days we only had two of these 'GET' and 'POST', now it seems a new one comes out every month. In this doc they are simply use the term
 Via for this in most places.
@@ -773,7 +773,7 @@ Would get you no routes!
 
 The key needs only to be defined.
 
-=head 4 INLINE Type
+=head4 INLINE Type
 
 An INLINE route is one that usually points to only part of a single content entity, or perhaps a collection of that entity or even a number of 
 child entities under the parent entity.  Using an example 'Project' page it could be made up of a number panels, pages, tabs etc. each containing only part of 
@@ -836,11 +836,11 @@ The value must a Hashref with at least 1 key pair defined.
  
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
-=over4 ACTION
-=over4 CONTROLLER
-=over4 NO_ID
-=over4 API_ONLY
-=over4 VIA
+=over 4 ACTION
+=over 4 CONTROLLER
+=over 4 NO_ID
+=over 4 API_ONLY
+=over 4 VIA
 
 =head3 CHILD Type
 
@@ -880,12 +880,12 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=over4 ACTION
-=over4 CONTROLLER
-=over4 API_ONLY
-=over4 VIA
+=over 4 ACTION
+=over 4 CONTROLLER
+=over 4 API_ONLY
+=over 4 VIA
 
-=Head2 API Attribute
+=head2 API Attribute
 
 All three route types can have the 'API' attribute which is used to open the resource to the RESTful api of your system. 
 This module takes an 'open only when asked' design pattern,  meaning that if you do not explicitly ask for an API resource 
@@ -1068,7 +1068,7 @@ Both can be used with INLINE routes.
 
 So this hash
 
- PARENT => {
+  PARENT => {
              project => {
                     API   => {
                          VERBS => {
@@ -1115,15 +1115,15 @@ while the via and action are set by the HTTP verb.
 
 So this hash
 
-                  PARENT => {
-                     project => {
-                       API   => {
-                         VERBS => {
-                           RETREIVE => 1,
+  PARENT => {
+             project =>{
+                         API   => {
+                           VERBS => {
+                             RETREIVE => 1,
+                           },
                          },
                        },
-                       },
-                       CHILD => {
+                CHILD => {
                          user => {
                            API => {
                              VERBS => {
@@ -1224,9 +1224,9 @@ Using this attribute you can add a version prefix to all our your API routes.
 
 So with this hash
 
-             CONFIG => {API=>{VERSION=>'V_1_1'}},
-             PARENT => {
-                    project => {
+  CONFIG => {API=>{VERSION=>'V_1_1'}},
+  PARENT => {
+            project => {
                        API   => {
                          VERBS => {
                            RETREIVE => 1,
@@ -1248,7 +1248,7 @@ So with this hash
                            }
                          }
                        }
-                     }
+            }
                      
 would have only these routes 
 
@@ -1275,6 +1275,7 @@ So this hash
 
              CONFIG => {API=>{VERSION=>'V_1_1',
                               RESOURCE_PREFIX=>'beta' }
+                       },
              PARENT => {
                     project => {
                        API   => {
@@ -1322,14 +1323,13 @@ The value must be a valid SCALAR.
 If you really do not like 'API' as the lead part of your api namespace you can over-ride that with this 
 attribute as in the hash below
 
-             CONFIG => {API=>{PRIFIX=>'open'}},
-             PARENT => {
-                    project => {
+  CONFIG => {API=>{PRIFIX=>'open'}},
+  PARENT => {
+            project => {
                        API   => {
                          VERBS => {
                            RETREIVE => 1,
                          },
-                       },
                        },
                        CHILD => {
                          user => {
@@ -1346,7 +1346,7 @@ attribute as in the hash below
                            }
                          }
                        }
-                     }
+            }
                      
 would have only these routes 
 
@@ -1366,7 +1366,7 @@ would have only these routes
 The value must to be a valid SCALAR and a valid perl 'class' name. You should use the same naming convention 
 as found in Mojolicious,  lower-snake-case but it will also take '::' as well.
 
- =head1 AUTHOR
+=head1 AUTHOR
 
 John Scoles, C<< <byterock  at hotmail.com> >>
 
