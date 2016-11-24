@@ -2,13 +2,12 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Yet another way to do roles",
+  "ABSTRACT" => "Have a Hash make some Mojo routes",
   "AUTHOR" => "John Scoles <byterock\@hotmail.com>",
   "BUILD_REQUIRES" => {
     "Module::Build" => "0.38",
     "Test::Mojo" => 0,
     "Test::More" => 0,
-    "Test::Exception" => 0.32,
     "strict" => 0,
     "warnings" => 0,
     "Lingua::EN::Inflect"=>1,
