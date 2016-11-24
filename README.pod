@@ -1005,7 +1005,7 @@ You can find documentation for this module with the perldoc command.
     perldoc Mojolicious::Plugin::Authorization
 You can also look for information at:
 
-=over4
+=over 4
 
 =item * 
 
