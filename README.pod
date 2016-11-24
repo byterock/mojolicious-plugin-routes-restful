@@ -427,7 +427,7 @@ The value must a Hashref with at least 1 key pair defined.
  
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
-=over 4 
+=over4 
 =item ACTION
 =item CONTROLLER
 =item NO_ID
@@ -473,7 +473,7 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=over 4 
+=over4 
 =item ACTION
 =item CONTROLLER
 =item API_ONLY
@@ -975,7 +975,7 @@ You can find documentation for this module with the perldoc command.
     perldoc Mojolicious::Plugin::Authorization
 You can also look for information at:
 
-=over 4
+=over4
 
 =item * AnnoCPAN: Annotated CPAN documentation L<http:/>
 
