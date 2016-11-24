@@ -614,6 +614,7 @@ All types can have the API attribute which is used to define your RESTful routes
 to content you may want a RESTful 'route' to access data for that content, so you might as well do it at the same time as the route.  
 
 =head3 DEBUG Attribute
+
 You can add in the DEBUG attribute at the any attribute level to get the info on the route that is being generated. 
 
 =head2 PARENT Resource Type
@@ -839,11 +840,27 @@ The value must a Hashref with at least 1 key pair defined.
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
 =over 4 
-=item ACTION
-=item CONTROLLER
-=item NO_ID
-=item API_ONLY
-=item VIA
+
+=item * 
+
+ACTION
+
+=item * 
+
+CONTROLLER
+
+=item * 
+
+NO_ID
+
+=item * 
+
+API_ONLY
+
+=item * 
+
+VIA
+
 =back
 
 =head3 CHILD Type
@@ -884,13 +901,26 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=over 4 
-=item ACTION
-=item CONTROLLER
-=item API_ONLY
-=item VIA
-=back
 
+=over 4 
+
+=item * 
+
+ACTION
+
+=item * 
+
+CONTROLLER
+
+=item * 
+
+API_ONLY
+
+=item * 
+
+VIA
+
+=back
 =head2 API Attribute
 
 All three route types can have the 'API' attribute which is used to open the resource to the RESTful api of your system. 
@@ -923,7 +953,6 @@ This opens the 'GET' method of your API resource and always points to an 'update
 =head4 DELETE
 
 This opens the 'DELETE' method of your API resource and always points to an 'delete' sub in the resource controller.
-
 
 =head3 PARENT Types and Verbs
 
@@ -1388,11 +1417,17 @@ You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation L<http:/>
+=item * 
 
-=item * CPAN Ratings L<http://cpanratings.perl.org/d/>
+AnnoCPAN: Annotated CPAN documentation L<http:/>
 
-=item * Search CPAN L<http://search.cpan.org/dist//>
+=item * 
+
+CPAN Ratings L<http://cpanratings.perl.org/d/>
+
+=item * 
+
+Search CPAN L<http://search.cpan.org/dist//>
 
 =back
 
