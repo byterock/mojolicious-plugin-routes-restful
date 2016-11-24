@@ -9,7 +9,6 @@ use Mojo::Base 'Mojolicious::Controller';
 sub project {
 
     my $self = shift;
-warn("JSP =".$self->req->method);
 
     if ($self->req->method eq 'GET'){
         
