@@ -490,11 +490,24 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=over4 
-=item ACTION
-=item CONTROLLER
-=item API_ONLY
-=item VIA
+=over 4 
+
+=item * 
+
+ACTION
+
+=item * 
+
+CONTROLLER
+
+=item * 
+
+API_ONLY
+
+=item * 
+
+VIA
+
 =back
 
 =head2 API Attribute
@@ -994,11 +1007,17 @@ You can also look for information at:
 
 =over4
 
-=item * AnnoCPAN: Annotated CPAN documentation L<http:/>
+=item * 
 
-=item * CPAN Ratings L<http://cpanratings.perl.org/d/>
+AnnoCPAN: Annotated CPAN documentation L<http:/>
 
-=item * Search CPAN L<http://search.cpan.org/dist//>
+=item * 
+
+CPAN Ratings L<http://cpanratings.perl.org/d/>
+
+=item * 
+
+Search CPAN L<http://search.cpan.org/dist//>
 
 =back
 
