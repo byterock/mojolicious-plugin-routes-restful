@@ -424,7 +424,7 @@ version 0.01
 
 In you Mojo App:
 
-  package RouteRestful;
+  package RoutesRestful;
   use Mojo::Base 'Mojolicious';
 
   sub startup {
@@ -512,6 +512,7 @@ If you know all about routes just skip to the next section otherwise take a few 
 If you are not fully familiar with L<Mojolicious::Guides::Routing> have a look at L<Mojolicious::Guides::Routing> for some info.  
 
 =head4 Route
+
 The URL pattern that you are opening up that leads to a 'sub' in a controller 'class' which returns some content from the system.
 
 =head4 Action
@@ -519,6 +520,7 @@ The URL pattern that you are opening up that leads to a 'sub' in a controller 'c
 The 'sub' in the '.pm' file (class) that the route will invoke.
 
 =head4 Controller
+
 This is the '.pm' file (class) file that a route will use to find its action 'sub' in. 
 
 =head4 Parent or Child Resource
@@ -591,30 +593,30 @@ Used to hold the namespaces for all routes you generate. Does the same thing as
 It must be an array ref of module Class names as they would appear in a 'use' statement.  These are important as you app may not find 
 your class if its  namespace do not appear here.
 
-=head2 Resource Types PARENT, CHILD, INLINE
+=head3 Resource Types PARENT, CHILD, INLINE
 
 There is nothing in Mojolicious stopping you from creating a big goofy chained resource like 'all/the/bad/code/perl/catalyst' if that is what you want then 
 find yourself another Plugin. This Plugin enforces a simple two tier model, with as many 1st level 'PARENT' resources as you like, and under each 
 you can have as many 2nd level 'INLINE' and 'Child' types you want.  
 
-=head2 Parent and Child in the Stash
+=head3 Parent and Child in the Stash
 
 INLINE and CHILD routes always have the values of parent and child in the stash as well as id and child_id if available. 
 
-=head2 Resource Attributes
+=head3 Resource Attributes
  
 All three of resource types have Attributes that allow you to customize your routes to some degree. Most of the attributes are common to all
 three and some only apply to certain types. They are all optional.
 
-=head2 API Attribute
+=head3 API Attribute
 
 All types can have the API attribute which is used to define your RESTful routes. The idea being that if you are creating a route
 to content you may want a RESTful 'route' to access data for that content, so you might as well do it at the same time as the route.  
 
-=head2 DEBUG Attribute
+=head3 DEBUG Attribute
 You can add in the DEBUG attribute at the any attribute level to get the info on the route that is being generated. 
 
-=head3 PARENT Resource Type
+=head2 PARENT Resource Type
 
 By default a Parent resource use its key as the resource and controller name, show as the action and GET as the http verb. 
 
@@ -679,7 +681,7 @@ One can override the use of 'key' as the controller name by using this modifier 
 The value must to be a valid SCALAR and a valid perl 'class' name. You should use the same naming convention 
 as found in Mojolicious,  lower-snake-case but it will also take '::' as well.
 
-=head4  NO_ID
+=head4 NO_ID
 
 You may not want to have an :id on a 'PARENT' resource so you can use this modifier to drop that route
 
@@ -699,7 +701,7 @@ would get you only
 
 The key needs only to be defined. 
 
-=head4  NO_ROOT
+=head4 NO_ROOT
 
 Sometimes one might not want to open up a 'PARENT' resource without an :id so you can use this modifier to drop that route
 
@@ -773,7 +775,7 @@ Would get you no routes!
 
 The key needs only to be defined.
 
-=head4 INLINE Type
+=head2 INLINE Type
 
 An INLINE route is one that usually points to only part of a single content entity, or perhaps a collection of that entity or even a number of 
 child entities under the parent entity.  Using an example 'Project' page it could be made up of a number panels, pages, tabs etc. each containing only part of 
@@ -797,7 +799,7 @@ as the http verb.  As well the parent and child resource are passed placed in th
   
 So to create the routes for the example page above one would use this hash
 
-    PARENT => {
+  PARENT => {
             project => {
               STASH =>{page=>'project'},
               INLINE => { abstract=>{
@@ -836,11 +838,13 @@ The value must a Hashref with at least 1 key pair defined.
  
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
-=head4 ACTION
-=head4 CONTROLLER
-=head4 NO_ID
-=head4 API_ONLY
-=head4 VIA
+=over 4 
+=item ACTION
+=item CONTROLLER
+=item NO_ID
+=item API_ONLY
+=item VIA
+=back
 
 =head3 CHILD Type
 
@@ -852,7 +856,7 @@ as the http verb.
 
 So this hash
 
-   PARENT => {
+  PARENT => {
             project => {
               CHILD => { user=>{},
                          contact=>{}
@@ -880,10 +884,12 @@ The value must be a Hashref with at least 1 key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
-=head4 ACTION
-=head4 CONTROLLER
-=head4 API_ONLY
-=head4 VIA
+=over 4 
+=item ACTION
+=item CONTROLLER
+=item API_ONLY
+=item VIA
+=back
 
 =head2 API Attribute
 
@@ -1047,7 +1053,7 @@ For example the following
     
          }
          
- would give you the following API routes
+would give you the following API routes
  
   +--------+-----------------------+-------+--------------------  +------------------------------------+
   |  Type  |    Route              | Via   | Controller#Action    | Stashed Values                     |
@@ -1060,9 +1066,9 @@ For example the following
  
 The value must be a Hashref with at least 1 of the valid VERB keys defined. It only process 'RETEIVE' and 'UPDATE' verbs.
  
-=head4 Other Attributes
+=head3 Other Attributes
 
-=head3 RESOURCE and ACTION
+=head4 RESOURCE and ACTION
 
 Both can be used with INLINE routes.
 
@@ -1086,7 +1092,7 @@ So this hash
     
          }
          
- would give you the following API routes
+would give you the following API routes
  
   +--------+----------------------+-------+-----------------------------------+------------------------------------+
   |  Type  |    Route             | Via   | Controller#Action                 | Stashed Values                     |
@@ -1156,16 +1162,16 @@ would generate these routes
 
 The value must a Hashref with at least 1 of the valid VERB keys defined.
 
-=head4 Other Attributes
+=head3 Other Attributes
 
-=head3 RESOURCE and CONTROLLER
+=head4 RESOURCE and CONTROLLER
 
 You can use both the 'RESOURCE' and CONTROLLER attributes on in sub_route. The only caveat being that you cannot change 
 the controller and action on the RETREIVE Verb without :child_id.
 
 So given this hash
 
-               PARENT => {
+  PARENT => {
                     project => {
                        API   => {
                          VERBS => {
@@ -1273,10 +1279,10 @@ You can also add a global prefix as well if you want.  It always comes after the
 
 So this hash
 
-             CONFIG => {API=>{VERSION=>'V_1_1',
-                              RESOURCE_PREFIX=>'beta' }
-                       },
-             PARENT => {
+  CONFIG => {API=>{VERSION=>'V_1_1',
+                   RESOURCE_PREFIX=>'beta' }
+            },
+  PARENT => {
                     project => {
                        API   => {
                          VERBS => {
@@ -1380,6 +1386,7 @@ You can find documentation for this module with the perldoc command.
     perldoc Mojolicious::Plugin::Authorization
 You can also look for information at:
 
+=over 4
 
 =item * AnnoCPAN: Annotated CPAN documentation L<http:/>
 

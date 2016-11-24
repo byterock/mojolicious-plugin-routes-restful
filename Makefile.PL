@@ -6,13 +6,13 @@ my %WriteMakefileArgs = (
   "AUTHOR" => "John Scoles <byterock\@hotmail.com>",
   "BUILD_REQUIRES" => {
     "Module::Build" => "0.38",
-    "Mojolicious::Lite" => 0,
     "Test::Mojo" => 0,
     "Test::More" => 0,
     "Test::Exception" => 0.32,
     "Test::Deep"      => 0.113,
     "strict" => 0,
-    "warnings" => 0
+    "warnings" => 0,
+    "Lingua::EN::Inflect"=>1,
   },
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30",
