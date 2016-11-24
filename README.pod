@@ -203,6 +203,7 @@ All types can have the API attribute which is used to define your RESTful routes
 to content you may want a RESTful 'route' to access data for that content, so you might as well do it at the same time as the route.  
 
 =head3 DEBUG Attribute
+
 You can add in the DEBUG attribute at the any attribute level to get the info on the route that is being generated. 
 
 =head2 PARENT Resource Type
@@ -428,11 +429,27 @@ The value must a Hashref with at least 1 key pair defined.
 The following attributes are available to INLINE types and work in the same way as the PARENT attributes. 
 
 =over 4 
-=item * ACTION
-=item * CONTROLLER
-=item * NO_ID
-=item * API_ONLY
-=item * VIA
+
+=item * 
+
+ACTION
+
+=item * 
+
+CONTROLLER
+
+=item * 
+
+NO_ID
+
+=item * 
+
+API_ONLY
+
+=item * 
+
+VIA
+
 =back
 
 =head3 CHILD Type
