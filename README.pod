@@ -11,7 +11,7 @@ version 0.01
 
 =head1 SYNOPSIS
 
-In you Mojo App:
+In your Mojo App:
 
   package RoutesRestful;
   use Mojo::Base 'Mojolicious';
@@ -55,7 +55,7 @@ In you Mojo App:
     }
     1;
     
-And presto the following content routes are created
+And, presto, the following content routes are created
 
   +--------+-----------------------------+-----+-------------------+
   |  Type  |    Route                    | Via | Controller#Action |
@@ -93,11 +93,11 @@ Simply drop the plugin at the top of your start class with a config hash and you
 
 =head1 METHODS
 
-Well none! Like the L<'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> it only generates routes to put in you app.
+Well, none! Like the L<'Box Factory'|https://simpsonswiki.com/wiki/Box_Factory> it only generates routes to put in your app.
 
 =head2 Notes on Mojo Routes and Routes in General 
 
-If you know all about routes just skip to the next section otherwise take a few minutes to go over the basic concepts this doc will use.
+If you know all about routes, just skip to the next section; otherwise, take a few minutes to go over the basic concepts this doc will use.
 If you are not fully familiar with L<Mojolicious::Guides::Routing> have a look at L<Mojolicious::Guides::Routing> for some info.  
 
 =head4 Route
@@ -127,8 +127,8 @@ The part of a route that identifies a single resource.  99.9872% of the time it 
 
 =head4 RESTFul Resources
 
-RESTful APIs should always use the plural form of a noun for parent and child resources and a number as an identifier. Normally RESTful
-resources point to data and not content.  As well a resource should not used to filter the data.  
+RESTful APIs should always use the plural form of a noun for parent and child resources and a number as an identifier. Normally, RESTful
+resources point to data and not content.  As well, a resource should not used to filter the data.  
 
 =head4 Resource Entity
 
@@ -136,7 +136,7 @@ The end content that a route will return in response to a request. Can be any fo
 
 =head4 RESTful Entity
 
-This usually means a specific block of data that is stored someplace that a route will return.  In RESTful resources there is an expectation  
+This usually means a specific block of data that is stored someplace that a route will return.  In RESTful resources, there is an expectation  
 of certain entity result from a route with a given HTTP verb. The table below lists out the expected results of a well
 designed RESTFul API and is the pattern that this Plugin enforces.
 
@@ -161,13 +161,13 @@ You might notice that collection DELELTE, PUT and PATCH is not present. This is 
 
 =head4 HTTP Via Verbs
 
-In the good old days we only had two of these 'GET' and 'POST', now it seems a new one comes out every month. In this doc they are simply use the term
+In the good old days we only had two of these: 'GET' and 'POST'. Now it seems a new one comes out every month. In this doc we simply use the term
 Via for this in most places.
 
 =head1 CONFIGURATION
 
-You define which routes and the behaviour of your routes with a simple config hash in the start part of your app.  The plugin returns the route object
-it created so you will have around if you need to other things to with or to it.  Say add in a bunch of collective DELETE routes. 
+You define which routes and the behaviour of your routes with a simple config hash in the startup section of your app.  The plugin returns the route object
+it created so you will have it if you need it for other operations, such as add in a bunch of collective DELETE routes. 
 
 =head2 CONFIG
 
@@ -179,12 +179,12 @@ Used to hold the namespaces for all routes you generate. Does the same thing as
 
     $r->namespaces(['MyApp::MyController','MyApp::::Controller::Ipa::Projects']);
     
-It must be an array ref of module Class names as they would appear in a 'use' statement.  These are important as you app may not find 
+It must be an array ref of module Class names as they would appear in a 'use' statement.  These are important, as your app may not find 
 your class if its  namespace do not appear here.
 
 =head3 Resource Types PARENT, CHILD, INLINE
 
-There is nothing in Mojolicious stopping you from creating a big goofy chained resource like 'all/the/bad/code/perl/catalyst' if that is what you want then 
+There is nothing in Mojolicious stopping you from creating a big goofy chained resource like 'all/the/bad/code/perl/catalyst'; if that is what you want, then
 find yourself another Plugin. This Plugin enforces a simple two tier model, with as many 1st level 'PARENT' resources as you like, and under each 
 you can have as many 2nd level 'INLINE' and 'Child' types you want.  
 
@@ -208,9 +208,9 @@ You can add in the DEBUG attribute at the any attribute level to get the info on
 
 =head2 PARENT Resource Type
 
-By default a Parent resource use its key as the resource and controller name, show as the action and GET as the http verb. 
+By default, a Parent resource uses its key as the resource and controller name, 'show' as the action and GET as the HTTP verb.
 
-So given this hash;
+So given this hash
 
   PARENT => {
             project => {},
@@ -230,12 +230,12 @@ these routes would be created
 
 =head3 PARENT Attributes
 
-The world is a complex place and there is never a simple solution that covers all the bases so this plugin includes a number of attributes that you can use
+The world is a complex place and there is never a simple solution that covers all the bases, so this plugin includes a number of attributes that you can use
 to customize your routes to suite your site's needs.
 
 =head4 ACTION
 
-You can override the default 'show' action by with this attribute so
+You can override the default 'show' action by with this attribute, so
 
   PARENT => {
             project => {ACTION=>'list'},
@@ -254,7 +254,7 @@ The value must to be a valid SCALAR and a valid perl sub name.
 
 =head4 CONTROLLER
 
-One can override the use of 'key' as the controller name by using this modifier so
+One can override the use of 'key' as the controller name by using this modifier, so
 
   PARENT => {
             project => {ACTION=>'list'
@@ -273,7 +273,7 @@ as found in Mojolicious,  lower-snake-case but it will also take '::' as well.
 
 =head4 NO_ID
 
-You may not want to have an :id on a 'PARENT' resource so you can use this modifier to drop that route
+You may not want to have an :id on a 'PARENT' resource, so you can use this modifier to drop that route
 
   PARENT => {
             project => {ACTION=>'all_projects'
@@ -293,7 +293,7 @@ The key needs only to be defined.
 
 =head4 NO_ROOT
 
-Sometimes one might not want to open up a 'PARENT' resource without an :id so you can use this modifier to drop that route
+Sometimes one might not want to open up a 'PARENT' resource without an :id, so you can use this modifier to drop that route
 
   PARENT => {
             project => {ACTION=>'list'
@@ -309,35 +309,34 @@ would get you only
   | Parent | /project/:id                | GET | pm#list           |
   +--------+-----------------------------+-----+-------------------+
 
-The key needs only to be defined.  Just to warn you now that if you use 'NO_ID' and 'NO_ROOT' you would get no routes.
+The key needs only to be defined.  Be aware that if you use both 'NO_ID' and 'NO_ROOT' you will get no routes.
 
 =head4 STASH
 
-Need some static data on all items along a route?  Well with this modifier you can.  So given this hash
+Need some static data on all items along a route?  Well, with this modifier you can.  So given this hash
 
   PARENT => {
             project => {STASH=>{selected_tab=>'project'}},
             user    => {STASH=>{selected_tab=>'user'}}
           }
           
-You would get the same routes as with the first example but the 'selected_tab' variable will be available in the stash.  So
+you would get the same routes as with the first example but the 'selected_tab' variable will be available in the stash.  So
 you could use it on your controller to pass the current navigation state into the content pages say, as in this
 case, to set up a  the 'Selected Tab' in a  view.
 
-The value must be a Hashref with at least 1 key pair defined.
+The value must be a Hashref with at least one key pair defined.
 
 =head4 VIA
 
-By default all route types use the GET http method.  You can change this to any other valid combination of
-HTTP methods.  As this plugin has a restful portion I am not sure you would you want to do that.  
-
+By default, all route types use the GET http method.  You can change this to any other valid combination of
+HTTP methods.  As this plugin has a restful portion, this is probably not advisable.
 
   PARENT => {
             user    => {Via =>[qw(POST PUT),
                         ACTION=>'update']}
           }
 
-would yield these routes;
+would yield these routes
 
   +--------+-----------------------------+------+-------------------+
   |  Type  |    Route                    | Via  | Controller#Action |
@@ -355,7 +354,7 @@ The value must be an Arrayref of valid HTTP methods.
 
 =head4 API_ONLY
 
-Sometimes you want just the RESTful API so instead of using 'NO_ID' and 'NO_ROOT' use the 'API_ONLY' and get no routes.
+Sometimes you want just the RESTful API so instead of using 'NO_ID' and 'NO_ROOT', use the 'API_ONLY' and get no routes.
 
   PARENT => {
             project => { API_ONLY=>1 },
@@ -381,11 +380,11 @@ Below we see the three panels of a 'Project' page
   ...
 
 In this case 'Abstract' is a single large content item from a single project entity,  'Details' has a number of smaller 
-single content items, Name, Long Description, etc and maybe a few collections such as 'Users' or 'Contacts'.  The final page 'Admin' 
+single content items (Name, Long Description, etc.) and maybe a few collections such as 'Users' or 'Contacts'.  The final page, 'Admin',
 leads to a separate admin entity.
 
-By default an INLINE resource use its key as the resource, its parent resource as its controller, its key as the action and GET 
-as the http verb.  As well the parent and child resource are passed placed in the stash along with and other STASH values from the PARENT
+By default, an INLINE resource uses its key as the resource, its parent resource as its controller, its key as the action, and GET
+as the HTTP verb.  Also, the parent and child resource are passed placed in the stash along with and other STASH values from the PARENT.
   
 So to create the routes for the example page above one would use this hash
 
@@ -419,10 +418,10 @@ which would give you these routes
  
 On the content pages you would use the 'stashed' page and tab values to select the current tab.
 
-So INLINE by default are limited in scope to the parent's level, in this case the project with the correct id,
+So INLINE by default is limited in scope to the parent's level, in this case the project with the correct id,
 and using the parents controller the action always being the key of the inline_route. 
 
-The value must a Hashref with at least 1 key pair defined.
+The value must a Hashref with at least one key pair defined.
 
 =head3 INLINE Attributes
  
@@ -454,11 +453,11 @@ VIA
 
 =head3 CHILD Type
 
-A CHILD is one that will always follow the parent to child entity pattern. So it should always point to either a collection of 
-child entities when only the parent :id is present and a single child entity when the  :child_id is present.
+A CHILD is one that will always follow the parent to child entity pattern. It should always point to either a collection of 
+child entities when only the parent :id is present, and a single child entity when the :child_id is present.
 
-By default a CHILD resource use its key as the resource, its parent resource as its controller, its key as the action and GET 
-as the http verb.  
+By default, a CHILD resource uses its key as the resource, its parent resource as its controller, its key as the action and GET 
+as the HTTP verb.
 
 So this hash
 
@@ -484,9 +483,9 @@ would result in the following routes
   +--------+--------------------------------+-----+-------------------+-----------------------------------+
 
 Notice how the stash has the parent controller 'project' and the action child 'user' this works in the same
-manner as INLINE types 
+manner as INLINE types.
 
-The value must be a Hashref with at least 1 key pair defined.
+The value must be a Hashref with at least one key pair defined.
 
 The following CHILD attributes are available and work in the same way as the on the INLINE and PARENT attributes.
 
@@ -512,12 +511,12 @@ VIA
 
 =head2 API Attribute
 
-All three route types can have the 'API' attribute which is used to open the resource to the RESTful api of your system. 
-This module takes an 'open only when asked' design pattern,  meaning that if you do not explicitly ask for an API resource 
+All three route types can have the 'API' attribute, which is used to open the resource to the RESTful API of your system.
+This module takes an 'open only when asked' design pattern,  meaning that if you do not explicitly ask for an API resource,
 it will not be created.
 
 It follows the tried and true CRUD pattern but with a an extra 'R' for 'Replace' giving us CRRUD which maps to 
-the following HTTP Methods 'POST', 'GET','PUT','PATCH' and 'DELETE'.  
+the following HTTP Methods: 'POST', 'GET','PUT','PATCH' and 'DELETE'.  
 
 =head3 VERBS
 
@@ -527,7 +526,9 @@ The VERBS modifier is used to open parts of your API.  It must be a Hashref with
 
 This opens the 'POST' method of your API resource and always points to a 'create' sub in the resource controller.
 
-=head4 RETRIVE
+=head4 RETREIVE
+
+NOTE: This option is currently misspelled in the code, and you must use the incorrect spelling until the module is corrected.
 
 This opens the 'GET' method of your API resource and always points to a 'get' sub in the resource controller.
 
@@ -546,7 +547,7 @@ This opens the 'DELETE' method of your API resource and always points to an 'del
 
 =head3 PARENT Types and Verbs
 
-All api verbs are available to a parent resource and by default the key is used as the resource and controller name while 
+All API verbs are available to a parent resource, and by default the key is used as the resource and controller name, while 
 the via and action are set by the HTTP verb.
 
 So for the following hash 
@@ -575,15 +576,15 @@ you would get the following api routes
   | Parent | /projects/:id                 | DELETE | api-projects#delete |
   +--------+-------------------------------+--------+---------------------+
 
-As the REPLACE verb was not added to the hash so the route via http PUT was not created. Note as well the PARENT
- resource has been change to a plural, via Lingua::EN::Inflect::PL, and the controller has had the default 'api' 
+As the REPLACE verb was not added to the hash, the route via http PUT was not created. Also note, the PARENT
+resource has been change to a plural, via Lingua::EN::Inflect::PL, and the controller has had the default 'api' 
 namespace added to the plural form of the PARENT resource.
 
-The value must a Hashref with at least 1 of the valid VERB keys defined.
+The value must a Hashref with at least one of the valid VERB keys defined.
 
 =head4 RESOURCE
 
-Sometimes you may not want to use the default plural form PL.  Say for example if your  specification 
+Sometimes you may not want to use the default plural form PL.  Say for example if your specification 
 requires you use the first letter abbreviated form of 'Professional Engineers of New Islington' 
 tacking an 's' on the end may not be what the client wants.  
  
@@ -599,7 +600,7 @@ So with this attribute used in this hash
                        },
               }
 
- you would get the following
+you would get the following
   
   +--------+-------------------------------+--------+---------------------+
   |  Type  |       Route                   | Via    | Controller#Action   |
@@ -610,11 +611,11 @@ So with this attribute used in this hash
 
 Note how it set both the route resource and the controller name.
 
-The value must to be a valid SCALAR.
+The value must be a valid SCALAR.
 
 =head4 CONTROLLER
 
-You may want to change the controller for some reason and this modifier lets you do that.  So
+You may want to change the controller for some reason; this modifier lets you do that.  So
 
   PARENT => {
              apparatus => {
@@ -636,21 +637,23 @@ would give you
   +--------+-------------------------------+--------+--------------------+
   
 The value must to be a valid SCALAR and a valid perl 'class' name. You should use the same naming convention 
-as found in Mojolicious,  lower-snake-case but it will also take '::' as well.
+as found in Mojolicious, lower-snake-case but it will also take '::' as well.
 
 =head4 STASH
 
-Like all the other route types you can add extra static data on all items along a route with this modifier.
-The value must be a Hashref with at least 1 key pair defined.
+Like all the other route types, you can add extra static data on all items along a route with this modifier.
+The value must be a Hashref with at least one key pair defined.
 
 =head3 INLINE Types and API Verbs
 
-INLINE API routes are limited to only two verbs 'RETEIVE' and 'UPDATE' and by default its key is used as the resource, while the 
-controller is the PARENT resource, the via is set by the VERB and the action is Key.
+NOTE: "RETRIEVE" is currently misspelled as "RETREIVE" in the code, so you must also spell it incorrectly.
 
-Technically speaking this type of route breaks the RESTFul speculation as no specific path to the Child and its identifier could be present, so it is
-really should be a PUT replace method rather than an PATCH update method.  I left it in as it is useful to have a about, for retrieval of partial data
- sets of a parent entity using  a sub in the parent's controller and updating large singleton sets of a Parent.
+INLINE API routes are limited to only two verbs 'RETREIVE' and 'UPDATE'; and by default, its key is used as the resource, the 
+controller is the PARENT resource, the via is set by the VERB, and the action is Key.
+
+Technically speaking, this type of route breaks the RESTFul speculation as no specific path to the Child and its identifier could be present, so it
+really should be a PUT replace method rather than an PATCH update method.  I left it in as it is useful to have about, for retrieval of partial data
+sets of a parent entity using a sub in the parent's controller, and updating large singleton sets of a Parent.
 Just do not use them if you do not like them.
 
 For example the following 
@@ -683,7 +686,7 @@ would give you the following API routes
   | INLINE | /projects/:id/resumes | PATCH | api-projects#resumes | parent = projects, child = resumes |
   +--------+-----------------------+-------+----------------------+------------------------------------+
  
-The value must be a Hashref with at least 1 of the valid VERB keys defined. It only process 'RETEIVE' and 'UPDATE' verbs.
+The value must be a Hashref with at least one of the valid VERB keys defined. It only process 'RETEIVE' and 'UPDATE' verbs.
  
 =head3 Other Attributes
 
@@ -722,20 +725,20 @@ would give you the following API routes
   | Child  | /projects/:id/resume | PATCH | api-projects#get_or_update_resume | parent = projects, child = resumes |
   +--------+----------------------+-------+-----------------------------------+------------------------------------+
 
-By the way it is not very good RESTful design to have a singular noun as a resource and to imply an update to a child with
+By the way, it is not very good RESTful design to have a singular noun as a resource, or to imply an update to a child with
 the PATCH method without an identifier for that child. 
 
 The value of RESOURCE and ACTION must be a valid SCALAR.
 
 =head4 STASH
 
-Like all the other route types you can add extra static data on all items along a route with this modifier.
-The value must be a Hashref with at least 1 key defined.
+Like all the other route types, you can add extra static data on all items along a route with this modifier.
+The value must be a Hashref with at least one key defined.
 
 =head3 CHILD Types and API Verbs
 
-CHILD type routes can utilize all verbs. The resource is by default the key value. When the GET verb is used with only the :id of the parent 
-then the Parent controller is used and the action will be the Key of the Child. All of the other routes the key is the controller name 
+CHILD type routes can utilize all verbs. The resource is by default the key value. When the GET verb is used with only the :id of the parent,
+then the Parent controller is used, and the action will be the Key of the Child. For all of the other routes, the key is the controller name
 while the via and action are set by the HTTP verb.
 
 So this hash
@@ -779,13 +782,13 @@ would generate these routes
   | Child  | /projects/:id/users/:child_id | DELETE | api-users#delete   | parent = projects, child = users |
   +--------+-------------------------------+--------+--------------------+----------------------------------+
 
-The value must a Hashref with at least 1 of the valid VERB keys defined.
+The value must a Hashref with at least one of the valid VERB keys defined.
 
 =head3 Other Attributes
 
 =head4 RESOURCE and CONTROLLER
 
-You can use both the 'RESOURCE' and CONTROLLER attributes on in sub_route. The only caveat being that you cannot change 
+You can use both the 'RESOURCE' and 'CONTROLLER' attributes in a sub_route. The only caveat being that you cannot change 
 the controller and action on the RETREIVE Verb without :child_id.
 
 So given this hash
@@ -802,7 +805,7 @@ So given this hash
                          user => {
                            API => {
                              CONTROLLER = 'my_users',
-                             RESORUCE   = 'user',
+                             RESOURCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
                                RETREIVE => 1,
@@ -834,8 +837,8 @@ The value of RESOURCE and CONTROLLER must be a valid SCALAR.
 
 =head4 STASH
 
-Like all the other route types you can add extra static data on all items along a route with this modifier. 
-The value must be a Hashref with at least 1 key pair defined.
+Like all the other route types, you can add extra static data on all items along a route with this modifier. 
+The value must be a Hashref with at least one key pair defined.
 
 =head3 Global API Attributes.
 
@@ -844,8 +847,8 @@ hash.
 
 =head4 VERSION
 
-Sometimes there is a requirement to version your APIs and this is normally done with a version prefix. 
-Using this attribute you can add a version prefix to all our your API routes.  
+Sometimes there is a requirement to include a version identifier for your APIs, and this is normally done with a version prefix. 
+Using this attribute, you can add a version prefix to all our your API routes.  
 
 So with this hash
 
@@ -944,6 +947,8 @@ would generate these routes
 The value must be a valid SCALAR. 
 
 =head4 PRIFIX
+
+NOTE: This should be spelled "PREFIX" but is currently misspelled in the code.
 
 If you really do not like 'API' as the lead part of your api namespace you can over-ride that with this 
 attribute as in the hash below
