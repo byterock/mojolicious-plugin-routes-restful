@@ -217,7 +217,7 @@ sub _api_routes {
     my $self = shift;
     my ( $rapi, $key, $api, $config ) = @_;
 
-    my $resource         = $api->{resource} || PL($key);
+    my $resource         = $api->{RESOURCE} || PL($key);
     my $verbs            = $api->{VERBS};
     my $stash            = $api->{STASH} || {};
     my $contoller        = $api->{CONTROLLER} || $resource;
@@ -294,7 +294,7 @@ sub _sub_api_routes {
     my $self = shift;
     my ( $rapi, $parent, $key, $api, $config ) = @_;
 
-    my $child_resource   = $api->{resource} || PL($key);
+    my $child_resource   = $api->{RESOURCE} || PL($key);
     my $verbs            = $api->{VERBS};
     my $stash            = $api->{STASH} || {};
     my $child_controller = $api->{CONTROLLER} || $child_resource;
