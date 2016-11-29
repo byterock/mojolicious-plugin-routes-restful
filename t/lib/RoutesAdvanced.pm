@@ -11,7 +11,7 @@ sub startup {
                 API => {
                     VERSION    => 'V_1',
                     RESOURCE_PREFIX => 'myapp',
-                    PRIFIX          => 'ipa'
+                    PREFIX          => 'ipa'
                 },
                 NAMESPACES => [
                     'RoutesAdvanced::Controller',
@@ -40,7 +40,7 @@ sub startup {
                     {RESOURCE=>'paper',
                         CONTROLLER     => 'papers',
                         #DEBUG => 1,
-                        VERBS => { RETREIVE => 1, },
+                        VERBS => { RETRIEVE => 1, },
                     },
 
                 },
@@ -62,7 +62,7 @@ sub startup {
                                 ACTION     => 'mydeatails',
                                 RESOURCE  => 'my_details',
                                 VERBS => {
-                                    RETREIVE => 1
+                                    RETRIEVE => 1
                                 }
                             }
                         },
@@ -74,7 +74,7 @@ sub startup {
                                 #DEBUG => 1,
                                 RESOURCE => 'planning',
                                 VERBS    => {
-                                     RETREIVE => 1
+                                     RETRIEVE => 1
                                 }
                             }
                         },
@@ -92,7 +92,7 @@ sub startup {
                                 RESOURCE   => 'view_users',
                                #DEBUG => 1,
                                 VERBS => {
-                                    RETREIVE => 1,
+                                    RETRIEVE => 1,
                                 }
                             }
                         },
@@ -106,7 +106,7 @@ sub startup {
                                 VERBS => {
                                     CREATE   => 1,
                                     REPLACE  => 1,
-                                    RETREIVE => 1,
+                                    RETRIEVE => 1,
                                     UPDATE   => 1,
                                     DELETE   => 1
                                 }

@@ -221,29 +221,29 @@ sub _api_routes {
     my $verbs            = $api->{VERBS};
     my $stash            = $api->{STASH} || {};
     my $contoller        = $api->{CONTROLLER} || $resource;
-    my $contoller_prefix = $config->{PRIFIX} || "api";
+    my $contoller_prefix = $config->{PREFIX} || "api";
 
     my $url = $self->_api_url( $resource, $config );
 
     warn(   "API PARENT  ->/" 
           . $url
           . "->Via->GET-> $contoller_prefix-$contoller#get" )
-      if ( $verbs->{RETREIVE} )
+      if ( $verbs->{RETRIEVE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url )->via('GET')
       ->to( "$contoller_prefix-$contoller#get", $stash )
-      if ( $verbs->{RETREIVE} );
+      if ( $verbs->{RETRIEVE} );
 
     warn(   "API PARENT  ->/" 
           . $url
           . "/:id->Via->GET-> $contoller_prefix-$contoller#get" )
-      if ( $verbs->{RETREIVE} )
+      if ( $verbs->{RETRIEVE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id" )->via('GET')
       ->to( "$contoller_prefix-$contoller#get", $stash )
-      if ( $verbs->{RETREIVE} );
+      if ( $verbs->{RETRIEVE} );
 
     warn(   "API PARENT  ->/" 
           . $url
@@ -298,7 +298,7 @@ sub _sub_api_routes {
     my $verbs            = $api->{VERBS};
     my $stash            = $api->{STASH} || {};
     my $child_controller = $api->{CONTROLLER} || $child_resource;
-    my $contoller_prefix = $config->{PRIFIX} || "api";
+    my $contoller_prefix = $config->{PREFIX} || "api";
     $stash->{parent} = $parent;
     $stash->{child}  = $child_resource;
     my $url = $self->_api_url( $parent, $config );
@@ -306,23 +306,23 @@ sub _sub_api_routes {
     warn(
 "API CHILD   ->/$url/:id/$child_resource ->Via->GET-> $contoller_prefix-$parent#$child_resource"
       )
-      if ( $verbs->{RETREIVE} )
+      if ( $verbs->{RETRIEVE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('GET')
       ->to( "$contoller_prefix-$parent#$child_resource", $stash )
-      if ( $verbs->{RETREIVE} );
+      if ( $verbs->{RETRIEVE} );
 
     warn(   "API CHILD   ->/" 
           . $url
           . "/:id/$child_resource/:child_id->Via->GET-> $contoller_prefix-$child_controller#get"
       )
-      if ( $verbs->{RETREIVE} )
+      if ( $verbs->{RETRIEVE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource . "/:child_id" )
       ->via('GET')->to( "$contoller_prefix-$child_controller#get", $stash )
-      if ( $verbs->{RETREIVE} );
+      if ( $verbs->{RETRIEVE} );
 
     warn(   "API CHILD   ->/" 
           . $url
@@ -379,7 +379,7 @@ sub _inline_api_routes {
     my $child_resource = $api->{RESOURCE} || PL($key);    #this should be action
     my $stash          = $api->{STASH} || {};
     my $action = $api->{ACTION} || $child_resource;
-    my $contoller_prefix = $config->{PRIFIX} || "api";
+    my $contoller_prefix = $config->{PREFIX} || "api";
 
     $stash->{parent} = $parent;
     $stash->{child}  = $child_resource;
@@ -389,11 +389,11 @@ sub _inline_api_routes {
     warn(   "API INLINE->/" 
           . $url
           . "/:id/$child_resource->Via->GET-> $contoller_prefix-$parent#$action"
-    ) if ( $verbs->{RETREIVE} and $api->{DEBUG} );
+    ) if ( $verbs->{RETRIEVE} and $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource )->via('GET')
       ->to( "$contoller_prefix-$parent#$action", $stash )
-      if ( $verbs->{RETREIVE} );
+      if ( $verbs->{RETRIEVE} );
 
     warn(   "API INLINE->/" 
           . $url
@@ -437,14 +437,14 @@ In you Mojo App:
                          VERBS => {
                            CREATE   => 1,
                            UPDATE   => 1,
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                            DELETE   => 1
                          },
                        },
                        INLINE => {
                          detail => {
                            API => { 
-                           VERBS => { RETREIVE => 1 } }
+                           VERBS => { RETRIEVE => 1 } }
                          },
                        },
                        CHILD => {
@@ -452,7 +452,7 @@ In you Mojo App:
                            API => {
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                UPDATE   => 1,
                                DELETE   => 1
                              }
@@ -967,7 +967,7 @@ So for the following hash
                          VERBS => {
                            CREATE   => 1,
                            UPDATE   => 1,
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                            DELETE   => 1
                          },
                        },
@@ -1004,7 +1004,7 @@ So with this attribute used in this hash
                     API   => {
                          RESOURCE =>'apparatus'
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
               }
@@ -1032,7 +1032,7 @@ You may want to change the controller for some reason and this modifier lets you
                          RESOURCE =>'apparatus'
                          CONTROLLER=>'user_apps'
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
 
@@ -1069,12 +1069,12 @@ For example the following
              project => {
                     API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                     INLINE => 
                        { resume=>{
-                          API => {verbs=>{RETREIVE => 1,
+                          API => {verbs=>{RETRIEVE => 1,
                                   UPDATE => 1,
                                   }
                                 }
@@ -1107,14 +1107,14 @@ So this hash
              project => {
                     API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                     INLINE => 
                        { resume=>{
                           API => {RESOURCE => resume,
                                   ACTION=>'get_or_update_resume',
-                                  VERBS=>{RETREIVE => 1,
+                                  VERBS=>{RETRIEVE => 1,
                                           UPDATE   => 1}
                                   }
                                }
@@ -1154,7 +1154,7 @@ So this hash
              project =>{
                          API   => {
                            VERBS => {
-                             RETREIVE => 1,
+                             RETRIEVE => 1,
                            },
                          },
                        },
@@ -1163,7 +1163,7 @@ So this hash
                            API => {
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -1196,7 +1196,7 @@ The value must a Hashref with at least 1 of the valid VERB keys defined.
 =head4 RESOURCE and CONTROLLER
 
 You can use both the 'RESOURCE' and CONTROLLER attributes on in sub_route. The only caveat being that you cannot change 
-the controller and action on the RETREIVE Verb without :child_id.
+the controller and action on the RETRIEVE Verb without :child_id.
 
 So given this hash
 
@@ -1204,7 +1204,7 @@ So given this hash
                     project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -1215,7 +1215,7 @@ So given this hash
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -1264,7 +1264,7 @@ So with this hash
             project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -1275,7 +1275,7 @@ So with this hash
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -1315,7 +1315,7 @@ So this hash
                     project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -1326,7 +1326,7 @@ So this hash
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -1353,17 +1353,17 @@ would generate these routes
 
 The value must be a valid SCALAR. 
 
-=head4 PRIFIX
+=head4 PREFIX
 
 If you really do not like 'API' as the lead part of your api namespace you can over-ride that with this 
 attribute as in the hash below
 
-  CONFIG => {API=>{PRIFIX=>'open'}},
+  CONFIG => {API=>{PREFIX=>'open'}},
   PARENT => {
             project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        CHILD => {
@@ -1373,7 +1373,7 @@ attribute as in the hash below
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1

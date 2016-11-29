@@ -16,7 +16,7 @@ sub startup {
                         VERBS => {
                             CREATE   => 1,
                             UPDATE   => 1,
-                            RETREIVE => 1,
+                            RETRIEVE => 1,
                             REPLACE  => 1,
                             DELETE   => 1
                         },
@@ -25,7 +25,7 @@ sub startup {
                         detail => {
                             #DEBUG => 1,
                             API   => { VERBS => { UPDATE   => 1,
-                                                  RETREIVE => 1 } }
+                                                  RETRIEVE => 1 } }
                         },
                         planning => {
                             #DEBUG => 1,
@@ -33,7 +33,7 @@ sub startup {
                                #DEBUG => 1,
                                 RESOURCE => 'planning',
                                 VERBS    => { UPDATE   => 1,
-                                              RETREIVE => 1 }
+                                              RETRIEVE => 1 }
                             }
                         },
                         longdetail => {
@@ -51,7 +51,7 @@ sub startup {
                                 #DEBUG => 1,
                                 VERBS => {
                                     CREATE   => 1,
-                                    RETREIVE => 1,
+                                    RETRIEVE => 1,
                                     REPLACE  => 1,
                                     UPDATE   => 1,
                                     DELETE   => 1
@@ -65,7 +65,7 @@ sub startup {
                                 VERBS => {
                                     CREATE   => 1,
                                     REPLACE  => 1,
-                                    RETREIVE => 1,
+                                    RETRIEVE => 1,
                                     UPDATE   => 1,
                                     DELETE   => 1
                                 }

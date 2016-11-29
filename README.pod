@@ -26,14 +26,14 @@ In your Mojo App:
                          VERBS => {
                            CREATE   => 1,
                            UPDATE   => 1,
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                            DELETE   => 1
                          },
                        },
                        INLINE => {
                          detail => {
                            API => { 
-                           VERBS => { RETREIVE => 1 } }
+                           VERBS => { RETRIEVE => 1 } }
                          },
                        },
                        CHILD => {
@@ -41,7 +41,7 @@ In your Mojo App:
                            API => {
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                UPDATE   => 1,
                                DELETE   => 1
                              }
@@ -526,7 +526,7 @@ The VERBS modifier is used to open parts of your API.  It must be a Hashref with
 
 This opens the 'POST' method of your API resource and always points to a 'create' sub in the resource controller.
 
-=head4 RETREIVE
+=head4 RETRIEVE
 
 NOTE: This option is currently misspelled in the code, and you must use the incorrect spelling until the module is corrected.
 
@@ -558,7 +558,7 @@ So for the following hash
                          VERBS => {
                            CREATE   => 1,
                            UPDATE   => 1,
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                            DELETE   => 1
                          },
                        },
@@ -595,7 +595,7 @@ So with this attribute used in this hash
                     API   => {
                          RESOURCE =>'apparatus'
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
               }
@@ -623,7 +623,7 @@ You may want to change the controller for some reason; this modifier lets you do
                          RESOURCE =>'apparatus'
                          CONTROLLER=>'user_apps'
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
 
@@ -646,9 +646,9 @@ The value must be a Hashref with at least one key pair defined.
 
 =head3 INLINE Types and API Verbs
 
-NOTE: "RETRIEVE" is currently misspelled as "RETREIVE" in the code, so you must also spell it incorrectly.
+NOTE: "RETRIEVE" is currently misspelled as "RETRIEVE" in the code, so you must also spell it incorrectly.
 
-INLINE API routes are limited to only two verbs 'RETREIVE' and 'UPDATE'; and by default, its key is used as the resource, the 
+INLINE API routes are limited to only two verbs 'RETRIEVE' and 'UPDATE'; and by default, its key is used as the resource, the 
 controller is the PARENT resource, the via is set by the VERB, and the action is Key.
 
 Technically speaking, this type of route breaks the RESTFul speculation as no specific path to the Child and its identifier could be present, so it
@@ -662,12 +662,12 @@ For example the following
              project => {
                     API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                     INLINE => 
                        { resume=>{
-                          API => {verbs=>{RETREIVE => 1,
+                          API => {verbs=>{RETRIEVE => 1,
                                   UPDATE => 1,
                                   }
                                 }
@@ -700,14 +700,14 @@ So this hash
              project => {
                     API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                     INLINE => 
                        { resume=>{
                           API => {RESOURCE => resume,
                                   ACTION=>'get_or_update_resume',
-                                  VERBS=>{RETREIVE => 1,
+                                  VERBS=>{RETRIEVE => 1,
                                           UPDATE   => 1}
                                   }
                                }
@@ -747,7 +747,7 @@ So this hash
              project =>{
                          API   => {
                            VERBS => {
-                             RETREIVE => 1,
+                             RETRIEVE => 1,
                            },
                          },
                        },
@@ -756,7 +756,7 @@ So this hash
                            API => {
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -789,7 +789,7 @@ The value must a Hashref with at least one of the valid VERB keys defined.
 =head4 RESOURCE and CONTROLLER
 
 You can use both the 'RESOURCE' and 'CONTROLLER' attributes in a sub_route. The only caveat being that you cannot change 
-the controller and action on the RETREIVE Verb without :child_id.
+the controller and action on the RETRIEVE Verb without :child_id.
 
 So given this hash
 
@@ -797,7 +797,7 @@ So given this hash
                     project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -808,7 +808,7 @@ So given this hash
                              RESOURCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -857,7 +857,7 @@ So with this hash
             project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -868,7 +868,7 @@ So with this hash
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -908,7 +908,7 @@ So this hash
                     project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        },
@@ -919,7 +919,7 @@ So this hash
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1
@@ -946,19 +946,19 @@ would generate these routes
 
 The value must be a valid SCALAR. 
 
-=head4 PRIFIX
+=head4 PREFIX
 
 NOTE: This should be spelled "PREFIX" but is currently misspelled in the code.
 
 If you really do not like 'API' as the lead part of your api namespace you can over-ride that with this 
 attribute as in the hash below
 
-  CONFIG => {API=>{PRIFIX=>'open'}},
+  CONFIG => {API=>{PREFIX=>'open'}},
   PARENT => {
             project => {
                        API   => {
                          VERBS => {
-                           RETREIVE => 1,
+                           RETRIEVE => 1,
                          },
                        },
                        CHILD => {
@@ -968,7 +968,7 @@ attribute as in the hash below
                              RESORUCE   = 'user',
                              VERBS => {
                                CREATE   => 1,
-                               RETREIVE => 1,
+                               RETRIEVE => 1,
                                REPLACE  => 1,
                                UPDATE   => 1,
                                DELETE   => 1

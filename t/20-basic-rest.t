@@ -159,6 +159,11 @@ push( @{ $project->{2}->{contacts} }, 'Yoko' );
 $t->get_ok("/projects/2/contacts/5")->status_is(200)
   ->json_is( $project->{2}->{contacts}->[4] );
 $t->delete_ok("/projects/2/contacts/3")->status_is(200);
+$t->delete_ok("/projects/2/contacts")->status_is(405);
+$t->delete_ok("/projects")->status_is(405);
+$t->put_ok("/projects/2/contacts")->status_is(405);
+$t->put_ok("/projects")->status_is(405);
+
 $t->get_ok("/projects/2/contacts/3")->status_is(404);
 
 #note here '/projects/1/users/' will fail as the data is not shared across APIs
