@@ -8,5 +8,6 @@ Revsion History for Mojolicious::Plugin::Routes::Restful
     #4 Pod Cleanup, From William Lindley (https://github.com/lindleyw)  Fix: William Lindley
     #5 Test Commented out, From: John Scoles Fix: John Scoles
     #6 Extend Test Suite, From Aristotle Fix: John Scoles
+    #8 Found bug on review had 'resource' ranther than 'RESOURCE' in code
      
      
