@@ -1,3 +1,12 @@
 Revsion History for Mojolicious::Plugin::Routes::Restful
 
 0.01 Initial kick at the can. 
+
+0.02 Bug Fixes 
+    #2 RETREIVE should be RETRIEVE, From: Dave Baker, Fix: John scoles 
+    #3 PRIFIX should be PREFIX, From: William Lindley (https://github.com/lindleyw)  Fix: John Scoles
+    #4 Pod Cleanup, From William Lindley (https://github.com/lindleyw)  Fix: William Lindley
+    #5 Test Commented out, From: John Scoles Fix: John Scoles
+    #6 Extend Test Suite, From Aristotle Fix: John Scoles
+     
+     

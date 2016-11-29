@@ -2,12 +2,12 @@
 
 =head1 NAME
 
-Mojolicious::Plugin::Routes::Restful- A plugin to generate Routes and a L<RESTful|http://en.wikipedia.org/wiki/Representational_state_transfer> API for those routes, 
+Mojolicious::Plugin::Routes::Restful - A plugin to generate Routes and a L<RESTful|http://en.wikipedia.org/wiki/Representational_state_transfer> API for those routes, 
 or just routes or just a RESTful API.
 
 =head1 VERSION
 
-version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
@@ -528,8 +528,6 @@ This opens the 'POST' method of your API resource and always points to a 'create
 
 =head4 RETRIEVE
 
-NOTE: This option is currently misspelled in the code, and you must use the incorrect spelling until the module is corrected.
-
 This opens the 'GET' method of your API resource and always points to a 'get' sub in the resource controller.
 
 =head4 REPLACE
@@ -645,8 +643,6 @@ Like all the other route types, you can add extra static data on all items along
 The value must be a Hashref with at least one key pair defined.
 
 =head3 INLINE Types and API Verbs
-
-NOTE: "RETRIEVE" is currently misspelled as "RETRIEVE" in the code, so you must also spell it incorrectly.
 
 INLINE API routes are limited to only two verbs 'RETRIEVE' and 'UPDATE'; and by default, its key is used as the resource, the 
 controller is the PARENT resource, the via is set by the VERB, and the action is Key.
@@ -948,8 +944,6 @@ The value must be a valid SCALAR.
 
 =head4 PREFIX
 
-NOTE: This should be spelled "PREFIX" but is currently misspelled in the code.
-
 If you really do not like 'API' as the lead part of your api namespace you can over-ride that with this 
 attribute as in the hash below
 
@@ -1028,7 +1022,7 @@ Search CPAN L<http://search.cpan.org/dist//>
 
 =head1 ACKNOWLEDGEMENTS
 
-    
+
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2016 John Scoles.
