@@ -1111,7 +1111,7 @@ So this hash
                        },
                     INLINE => 
                        { resume=>{
-                          API => {RESOURCE => resume,
+                          API => {RESOURCE => 'resume',
                                   ACTION=>'get_or_update_resume',
                                   VERBS=>{RETRIEVE => 1,
                                           UPDATE   => 1}
@@ -1210,8 +1210,8 @@ So given this hash
                        CHILD => {
                          user => {
                            API => {
-                             CONTROLLER = 'my_users',
-                             RESOURCE   = 'user',
+                             CONTROLLER => 'my_users',
+                             RESOURCE   => 'user',
                              VERBS => {
                                CREATE   => 1,
                                RETRIEVE => 1,
@@ -1270,8 +1270,8 @@ So with this hash
                        CHILD => {
                          user => {
                            API => {
-                             CONTROLLER = 'my_users',
-                             RESORUCE   = 'user',
+                             CONTROLLER => 'my_users',
+                             RESORUCE   => 'user',
                              VERBS => {
                                CREATE   => 1,
                                RETRIEVE => 1,
@@ -1321,8 +1321,8 @@ So this hash
                        CHILD => {
                          user => {
                            API => {
-                             CONTROLLER = 'my_users',
-                             RESORUCE   = 'user',
+                             CONTROLLER => 'my_users',
+                             RESORUCE   => 'user',
                              VERBS => {
                                CREATE   => 1,
                                RETRIEVE => 1,
@@ -1368,8 +1368,8 @@ attribute as in the hash below
                        CHILD => {
                          user => {
                            API => {
-                             CONTROLLER = 'my_users',
-                             RESORUCE   = 'user',
+                             CONTROLLER => 'my_users',
+                             RESORUCE   => 'user',
                              VERBS => {
                                CREATE   => 1,
                                RETRIEVE => 1,
