@@ -10,4 +10,5 @@ Revsion History for Mojolicious::Plugin::Routes::Restful
     #6 Extend Test Suite, From Aristotle Fix: John Scoles
     #8 Found bug on review had 'resource' ranther than 'RESOURCE' in code
      
-     
+0.03 Bug Fixes 
+    Fix for parent stash overwriteing child stash values Fix: John Scoles

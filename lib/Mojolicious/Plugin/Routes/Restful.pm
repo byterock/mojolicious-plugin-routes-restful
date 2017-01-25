@@ -5,7 +5,7 @@ use Data::Dumper;
 #Oh dear, she's stuck in an infinite loop and he's an idiot! Oh well, that's love
 
 BEGIN {
-    $Mojolicious::Plugin::Routes::Restful::VERSION = '0.02';
+    $Mojolicious::Plugin::Routes::Restful::VERSION = '0.03';
 }
 use Mojo::Base 'Mojolicious::Plugin';
 
@@ -417,7 +417,7 @@ or just routes or just a RESTful API.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =head1 SYNOPSIS
 
