@@ -108,7 +108,7 @@ sub _make_routes {
 
     my $route_stash = $route->{STASH} || {};
 
-    $route_stash = { %{$route_stash}, %{$parent_stash} }
+    $route_stash = { %{$parent_stash}, %{$route_stash}  }
       if ($parent_stash);
     my $action     = $route->{ACTION}     || "show";
     my $controller = $route->{CONTROLLER} || $key;
