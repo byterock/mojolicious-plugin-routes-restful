@@ -12,3 +12,6 @@ Revsion History for Mojolicious::Plugin::Routes::Restful
      
 0.03 Bug Fixes 
     Fix for parent stash overwriteing child stash values Fix: John Scoles
+    New "ROUTE" Directive Fix: John Scoles
+    POD fix 'Via' to 'VIA' Fix: John Scoles
+    Bug fix for API UPDATE directive Fix: John Scoles
