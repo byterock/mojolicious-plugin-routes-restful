@@ -60,9 +60,12 @@ sub register {
 
     my $config = $args->{CONFIG};
     my $rapp   = $app->routes;
+    $rapp = $args->{ROUTE}
+      if (exists($args->{ROUTE}));
+    
     my $routes = $args->{PARENT};
 
-    $rapp->namespaces( $config->{'NAMESPACES'} );
+    $app->routes->namespaces( $config->{'NAMESPACES'} );
 
     foreach my $key ( keys( %{$routes} ) ) {
 
@@ -350,12 +353,12 @@ sub _sub_api_routes {
           . $url
           . "/:id/$child_resource/:child_id->Via->PATCH-> $contoller_prefix-$child_controller#update"
       )
-      if ( $verbs->{PATCH} )
+      if ( $verbs->{UPDATE} )
       and ( $api->{DEBUG} );
 
     $rapi->route( "/" . $url . "/:id/" . $child_resource . "/:child_id" )
       ->via('PATCH')->to( "$contoller_prefix-$child_controller#update", $stash )
-      if ( $verbs->{PATCH} );
+      if ( $verbs->{UPDATE} );
 
     warn(   "API CHILD   ->/" 
           . $url
@@ -579,6 +582,7 @@ Via for this in most places.
 You define which routes and the behaviour of your routes with a simple config hash in the startup section of your app.  The plugin returns the route object
 it created so you will have it if you need it for other operations, such as add in a bunch of collective DELETE routes. 
 
+
 =head2 CONFIG
 
 This controls the global settings. 
@@ -591,6 +595,11 @@ Used to hold the namespaces for all routes you generate. Does the same thing as
     
 It must be an array ref of module Class names as they would appear in a 'use' statement.  These are important, as your app may not find 
 your class if its  namespace do not appear here.
+
+=head2 ROUTE
+
+With this optional attribute you can pass in a route that will have all the generated as its children. This is useful if you want to use 
+a bridge or callback on all your generated routes. 
 
 =head3 Resource Types PARENT, CHILD, INLINE
 
@@ -742,8 +751,8 @@ By default, all route types use the GET http method.  You can change this to any
 HTTP methods.  As this plugin has a restful portion, this is probably not advisable.
 
   PARENT => {
-            user    => {Via =>[qw(POST PUT),
-                        ACTION=>'update']}
+            user    => {VIA    =>[qw(POST PUT),
+                        ACTION =>'update']}
           }
 
 would yield these routes
