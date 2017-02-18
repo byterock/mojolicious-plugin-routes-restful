@@ -20,7 +20,7 @@
   "PREREQ_PM":{
     "Mojo::Base":0
   },
-  "VERSION":"0.01",
+  "VERSION":"0.03",
   "test":{
     "TESTS":"t/*.t"
   },
